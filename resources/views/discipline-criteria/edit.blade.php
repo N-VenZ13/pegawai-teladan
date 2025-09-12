@@ -1,0 +1,63 @@
+<!-- resources/views/admin/leader-criteria/edit.blade.php -->
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Edit Kriteria') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    @if ($errors->any())
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                        <strong class="font-bold">Oops! Terjadi kesalahan.</strong>
+                        <ul class="mt-2 list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+                    <form action="{{ route('discipline.criteria.update', $criterion->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Nama Kriteria</label>
+                                <input type="text" name="name" id="name" value="{{ old('name', $criterion->name) }}" class="mt-1 block w-full ..." required>
+                            </div>
+                            <div>
+                                <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi (Opsional)</label>
+                                <textarea name="description" id="description" rows="3" class="mt-1 block w-full ...">{{ old('description', $criterion->description) }}</textarea>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" name="is_active" id="is_active" value="1" @checked(old('is_active', $criterion->is_active)) class="h-4 w-4 ...">
+                                <label for="is_active" class="ml-2 block text-sm text-gray-900">Aktifkan kriteria ini</label>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-end mt-4">
+                            <a href="{{ route('discipline.criteria.index') }}" class="... mr-4">
+                                Batal
+                            </a>
+                            <button type="submit" class="...">
+                                Simpan Perubahan
+                            </button>
+                        </div>
+                    </form>
+                    @push('scripts')
+                    <script>
+                        document.getElementById('create-form').addEventListener('submit', function() {
+                            var submitButton = document.getElementById('submit-button');
+                            submitButton.disabled = true;
+                            submitButton.innerText = 'Menyimpan...';
+                        });
+                    </script>
+                    @endpush
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
