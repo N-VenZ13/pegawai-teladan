@@ -1,5 +1,5 @@
 <!-- resources/views/employee/results/list.blade.php -->
-<x-app-layout>
+<x-main-layout>
     <x-slot name="header">
         Hasil Penilaian Pegawai Teladan
     </x-slot>
@@ -21,4 +21,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>

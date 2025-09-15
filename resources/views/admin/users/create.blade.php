@@ -1,6 +1,6 @@
 <!-- resources/views/admin/users/create.blade.php -->
 
-<x-app-layout>
+<x-main-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Tambah User Baru') }}
@@ -97,4 +97,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>

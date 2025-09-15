@@ -1,5 +1,5 @@
 <!-- resources/views/admin/assignments/index.blade.php -->
-<x-app-layout>
+<x-main-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Tugas Penilaian untuk Periode: {{ $period->name }}
@@ -62,4 +62,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>

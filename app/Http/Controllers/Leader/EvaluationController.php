@@ -27,7 +27,14 @@ class EvaluationController extends Controller
             ->get();
 
         // Ambil SEMUA kriteria yang aktif
-        $criteria = LeaderCriterion::where('is_active', true)->get();
+        // $criteria = LeaderCriterion::where('is_active', true)->get();
+        $criteriaForPegawai = LeaderCriterion::whereIn('target_type', ['pegawai', 'semua'])
+            ->where('is_active', true)
+            ->get();
+
+        $criteriaForKetuaTim = LeaderCriterion::whereIn('target_type', ['ketua_tim', 'semua'])
+            ->where('is_active', true)
+            ->get();
 
         // Ambil nilai yang sudah ada, tapi strukturnya sekarang beda
         $existingScores = LeaderAnswer::where('period_id', $activePeriod->id)
@@ -42,7 +49,13 @@ class EvaluationController extends Controller
                 return $item->score;
             });
 
-        return view('leader.evaluation.index', compact('activePeriod', 'users', 'criteria', 'existingScores'));
+        return view('leader.evaluation.index', compact(
+            'activePeriod',
+            'users',
+            'criteriaForPegawai',
+            'criteriaForKetuaTim',
+            'existingScores'
+        ));
     }
 
     public function store(Request $request)

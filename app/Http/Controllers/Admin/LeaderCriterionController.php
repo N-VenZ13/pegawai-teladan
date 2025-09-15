@@ -30,6 +30,8 @@ class LeaderCriterionController extends Controller
         $request->validate([
             'name' => 'required|string|max:255', // <-- Diubah (dari 'text')
             'description' => 'nullable|string',
+            'target_type' => 'required|in:pegawai,ketua_tim',
+            'target_type' => 'required|in:pegawai,ketua_tim,semua',
         ]);
 
         LeaderCriterion::create([ // <-- Diubah

@@ -1,5 +1,5 @@
 <!-- resources/views/admin/recap/show.blade.php -->
-<x-app-layout>
+<x-main-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Rekapitulasi Penilaian (Periode: {{ $period->name }})
@@ -102,4 +102,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>

@@ -1,6 +1,6 @@
 <!-- resources/views/leader/evaluation/no_period.blade.php -->
 
-<x-app-layout>
+<x-main-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Evaluasi Pimpinan') }}
@@ -18,4 +18,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>

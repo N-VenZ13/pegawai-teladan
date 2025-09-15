@@ -1,5 +1,5 @@
 <!-- resources/views/employee/voting/index.blade.php -->
-<x-app-layout>
+<x-main-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Tugas Penilaian Anda (Periode: {{ $activePeriod->name }})
@@ -41,4 +41,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>

@@ -1,5 +1,5 @@
 <!-- resources/views/leader/evaluation/index.blade.php -->
-<x-app-layout>
+<x-main-layout>
     <x-slot name="header">...</x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -20,7 +20,7 @@
                         </div>
                         @endif
                         <!-- AKHIR BLOK -->
-                         
+
                         <!-- Tombol simpan di atas -->
                         <div class="text-right mb-4">
                             <button type="submit" class="...">Simpan Semua Perubahan</button>
@@ -30,17 +30,29 @@
                             @foreach ($users as $user)
                             <div class="border rounded-lg p-4">
                                 <h3 class="text-lg font-semibold">{{ $user->name }}</h3>
-                                <p class="text-sm text-gray-500 mb-4">{{ $user->jabatan }}</p>
+                                <p class="text-sm text-gray-500 mb-4">
+                                    {{ $user->jabatan }}
+                                    @if($user->is_ketua_tim)
+                                    <span class="ml-2 font-bold text-xs text-purple-800 bg-purple-200 px-2 py-1 rounded-full">Ketua Tim</span>
+                                    @endif
+                                </p>
 
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    @foreach($criteria as $criterion)
+                                    {{-- Tentukan set kriteria mana yang akan digunakan --}}
+                                    @php
+                                    $criteriaToUse = $user->is_ketua_tim ? $criteriaForKetuaTim : $criteriaForPegawai;
+                                    @endphp
+
+                                    @foreach($criteriaToUse as $criterion)
                                     <div>
-                                        <label for="score_{{ $user->id }}_{{ $criterion->id }}" class="block text-sm font-medium text-gray-700">{{ $criterion->name }}</label>
+                                        <label for="score_{{ $user->id }}_{{ $criterion->id }}" class="block text-sm font-medium text-gray-700">
+                                            {{ $criterion->name }}
+                                        </label>
                                         <input type="number"
                                             name="scores[{{ $user->id }}][{{ $criterion->id }}]"
                                             id="score_{{ $user->id }}_{{ $criterion->id }}"
                                             value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}"
-                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm ..."
+                                            class="mt-1 block w-full rounded-md ..."
                                             min="0" max="100">
                                     </div>
                                     @endforeach
@@ -53,4 +65,4 @@
             </form>
         </div>
     </div>
-</x-app-layout>
+</x-main-layout>
