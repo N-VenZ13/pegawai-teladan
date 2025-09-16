@@ -9,17 +9,17 @@
                     <form action="{{ route('skp.store') }}" method="POST">
                         @csrf
                         <div class="text-right mb-4">
-                            <button type="submit" class="...">Simpan Semua Nilai SKP</button>
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">Simpan Semua Nilai SKP</button>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="min-w-full bg-white">
                                 <thead class="bg-gray-200">
                                     <tr>
-                                        <th class="py-3 px-4 ... text-left">Nama Pegawai</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
                                         
-                                        <th class="...">Nilai {{ $activePeriod->month_1_name ?? 'Bulan 1' }}</th>
-                                        <th class="...">Nilai {{ $activePeriod->month_2_name ?? 'Bulan 2' }}</th>
-                                        <th class="...">Nilai {{ $activePeriod->month_3_name ?? 'Bulan 3' }}</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nilai {{ $activePeriod->month_1_name ?? 'Bulan 1' }}</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nilai {{ $activePeriod->month_2_name ?? 'Bulan 2' }}</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nilai {{ $activePeriod->month_3_name ?? 'Bulan 3' }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -18,6 +18,25 @@
                     </div>
                     @endif
 
+                    <div class="mb-6 pb-6 border-b">
+                        <h4 class="text-lg font-medium text-gray-800 mb-2">Unduh Laporan Excel</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="{{ route('recap.export.peer_to_peer', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
+                                Laporan Peer-to-Peer (Pegawai)
+                            </a>
+                            <a href="{{ route('recap.export.team_leader_peer', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
+                                Laporan Peer-to-Peer (Ketua Tim)
+                            </a>
+                            <a href="{{ route('recap.export.pegawai_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
+                                Rekap Pegawai Teladan
+                            </a>
+                            <a href="{{ route('recap.export.ketua_tim_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
+                                Rekap Ketua Tim Teladan
+                            </a>
+                            <!-- Tombol untuk laporan lain akan kita tambahkan di sini nanti -->
+                        </div>
+                    </div>
+
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xl font-bold text-gray-800">Hasil Akhir Penilaian</h3>
                         @if($period->status == 'finished')
@@ -72,6 +91,8 @@
 
                     @role('Pimpinan')
                     <div class="mt-8 border-t pt-6">
+
+
                         <h4 class="text-lg font-medium text-gray-800 mb-4">Unggah Dokumen Pendukung</h4>
 
                         <form action="{{ route('recap.upload_files', $period->id) }}" method="POST" enctype="multipart/form-data">

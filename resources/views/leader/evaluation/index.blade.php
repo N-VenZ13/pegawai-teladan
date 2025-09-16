@@ -7,6 +7,7 @@
                 @csrf
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
+                        <!-- ... (Notifikasi sukses/error) ... -->
                         @if (session('success'))
                         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                             <strong class="font-bold">Sukses!</strong>
@@ -19,46 +20,48 @@
                             <span class="block sm:inline">{{ session('error') }}</span>
                         </div>
                         @endif
-                        <!-- AKHIR BLOK -->
-
-                        <!-- Tombol simpan di atas -->
                         <div class="text-right mb-4">
-                            <button type="submit" class="...">Simpan Semua Perubahan</button>
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-brand-blue ...">Simpan Semua Perubahan</button>
                         </div>
 
-                        <div class="space-y-8">
-                            @foreach ($users as $user)
-                            <div class="border rounded-lg p-4">
-                                <h3 class="text-lg font-semibold">{{ $user->name }}</h3>
-                                <p class="text-sm text-gray-500 mb-4">
-                                    {{ $user->jabatan }}
-                                    @if($user->is_ketua_tim)
-                                    <span class="ml-2 font-bold text-xs text-purple-800 bg-purple-200 px-2 py-1 rounded-full">Ketua Tim</span>
-                                    @endif
-                                </p>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white border">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
+                                        <!-- Loop untuk membuat header kriteria dinamis -->
+                                        @foreach($criteriaForPegawai as $criterion) {{-- Kita ambil satu set kriteria sebagai sampel header --}}
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center w-32">{{ $criterion->name }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($users as $user)
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="py-3 px-4 font-medium">
+                                            {{ $user->name }}
+                                            @if($user->is_ketua_tim)
+                                            <span class="ml-2 text-xs font-bold text-purple-800 bg-purple-200 px-2 py-1 rounded-full">Ketua Tim</span>
+                                            @endif
+                                        </td>
 
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    {{-- Tentukan set kriteria mana yang akan digunakan --}}
-                                    @php
-                                    $criteriaToUse = $user->is_ketua_tim ? $criteriaForKetuaTim : $criteriaForPegawai;
-                                    @endphp
+                                        @php
+                                        $criteriaToUse = $user->is_ketua_tim ? $criteriaForKetuaTim : $criteriaForPegawai;
+                                        @endphp
 
-                                    @foreach($criteriaToUse as $criterion)
-                                    <div>
-                                        <label for="score_{{ $user->id }}_{{ $criterion->id }}" class="block text-sm font-medium text-gray-700">
-                                            {{ $criterion->name }}
-                                        </label>
-                                        <input type="number"
-                                            name="scores[{{ $user->id }}][{{ $criterion->id }}]"
-                                            id="score_{{ $user->id }}_{{ $criterion->id }}"
-                                            value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}"
-                                            class="mt-1 block w-full rounded-md ..."
-                                            min="0" max="100">
-                                    </div>
+                                        @foreach($criteriaToUse as $criterion)
+                                        <td class="py-3 px-4">
+                                            <input type="number"
+                                                name="scores[{{ $user->id }}][{{ $criterion->id }}]"
+                                                value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}"
+                                                class="w-full text-center rounded-md border-gray-300 ..."
+                                                min="0" max="100">
+                                        </td>
+                                        @endforeach
+                                    </tr>
                                     @endforeach
-                                </div>
-                            </div>
-                            @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

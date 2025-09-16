@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\KetuaTimTeladanExport;
+use App\Exports\PeerToPeerExport;
+use App\Exports\PegawaiTeladanExport;
+use App\Exports\TeamLeaderPeerExport;
 use App\Http\Controllers\Controller;
 use App\Models\DisciplineScore;
 use App\Models\LeaderAnswer;
@@ -11,30 +15,36 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class RecapController extends Controller
 {
     public function selectPeriod()
     {
-        // Ambil semua periode yang sudah selesai atau sudah dipublikasi
         $periods = Period::whereIn('status', ['finished', 'published'])->latest()->get();
         return view('admin.recap.select_period', compact('periods'));
     }
 
+    // Hanya ada SATU method show()
     public function show(Period $period)
     {
-        // Panggil method kalkulasi yang sudah kita buat
-        $recapData = $this->calculateRecap($period);
-
-        // Langsung kirim hasilnya ke view
+        // Panggil calculateRecap dengan parameter default 'all' untuk tampilan web
+        $recapData = $this->calculateRecap($period, 'all');
         return view('admin.recap.show', compact('period', 'recapData'));
     }
 
-    public function calculateRecap(Period $period)
+    // Hanya ada SATU method calculateRecap()
+    public function calculateRecap(Period $period, string $targetRole = 'all')
     {
-        $users = User::role(['Pegawai', 'Pimpinan'])->orderBy('name')->get();
+        if ($targetRole === 'pegawai') {
+            $users = User::role('Pegawai')->where('is_ketua_tim', false)->orderBy('name')->get();
+        } elseif ($targetRole === 'ketua_tim') {
+            $users = User::role(['Pegawai', 'Pimpinan'])->where('is_ketua_tim', true)->orderBy('name')->get();
+        } else {
+            $users = User::role(['Pegawai', 'Pimpinan'])->orderBy('name')->get();
+        }
 
-        // 1. Ambil Rata-rata Nilai Voting Rekan Kerja (SAMA SEPERTI SEBELUMNYA)
         $peerScores = DB::table('assignments')
             ->join('answers', 'assignments.id', '=', 'answers.assignment_id')
             ->where('assignments.period_id', $period->id)
@@ -42,27 +52,21 @@ class RecapController extends Controller
             ->select('assignments.target_id as user_id', DB::raw('AVG(answers.score) as average_score'))
             ->pluck('average_score', 'user_id');
 
-        // --- LOGIKA BARU ---
-
-        // 2. Ambil TOTAL Nilai Kriteria dari Pimpinan
         $leaderScores = LeaderAnswer::where('period_id', $period->id)
             ->groupBy('target_id')
             ->select('target_id as user_id', DB::raw('SUM(score) as total_score'))
             ->pluck('total_score', 'user_id');
 
-        // 3. Ambil RATA-RATA Nilai SKP Bulanan
         $skpScores = $period->skpScores()->get()->mapWithKeys(function ($item) {
             $avg = ($item->month_1_score + $item->month_2_score + $item->month_3_score) / 3;
             return [$item->user_id => $avg];
         });
 
-        // 4. Ambil TOTAL Nilai Kriteria Disiplin
         $disciplineScores = DisciplineScore::where('period_id', $period->id)
             ->groupBy('user_id')
             ->select('user_id', DB::raw('SUM(score) as total_score'))
             ->pluck('total_score', 'user_id');
 
-        // 5. Proses Kalkulasi dengan Formula Baru
         $results = [];
         foreach ($users as $user) {
             $peerScore = $peerScores->get($user->id, 0);
@@ -70,20 +74,10 @@ class RecapController extends Controller
             $skpScore = $skpScores->get($user->id, 0);
             $disciplineScore = $disciplineScores->get($user->id, 0);
 
-            // --- FORMULA PERHITUNGAN BARU (SESUAIKAN BOBOTNYA!) ---
-            // Contoh bobot:
-            // Peer/360: 10%, Leader: 40%, SKP: 30%, Disiplin: 20%
-            // CATATAN: Sesuaikan angka pembagi dan bobot sesuai aturan perusahaan Anda!
             $finalScore =
-                // Nilai rekan (skala 1-10, dijadikan 1-100)
                 (($peerScore * 10) * 0.10) +
-                // Nilai Pimpinan (jumlah total, mungkin perlu dibagi jumlah kriteria lalu dikali bobot)
-                // Asumsi: Nilai total / jumlah kriteria * bobot
-                // (Kita sederhanakan dulu, langsung kali bobot)
                 ($leaderScore * 0.40) +
-                // Rata-rata SKP (sudah skala 1-100)
                 ($skpScore * 0.30) +
-                // Total Nilai Disiplin (asumsi sama seperti pimpinan)
                 ($disciplineScore * 0.20);
 
             $results[] = [
@@ -149,4 +143,46 @@ class RecapController extends Controller
 
         return redirect()->back()->with('success', 'File berhasil diunggah.');
     }
+
+    public function exportPeerToPeer(Period $period)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Cek jika user ada DAN punya salah satu dari role yang diizinkan
+        if (!$user || !$user->hasRole(['Admin', 'Pimpinan'])) {
+            abort(403, 'Aksi tidak diizinkan.');
+        }
+
+        // Tentukan nama file
+        $fileName = 'Laporan_PeerToPeer_Pegawai_' . Str::slug($period->name) . '.xlsx';
+
+        // Panggil Laravel Excel untuk men-download
+        return Excel::download(new PeerToPeerExport($period), $fileName);
+    }
+
+    public function exportTeamLeaderPeer(Period $period)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Cek jika user ada DAN punya salah satu dari role yang diizinkan
+        if (!$user || !$user->hasRole(['Admin', 'Pimpinan'])) {
+            abort(403, 'Aksi tidak diizinkan.');
+        }
+        $fileName = 'Laporan_PeerToPeer_KetuaTim_' . Str::slug($period->name) . '.xlsx';
+        return Excel::download(new TeamLeaderPeerExport($period), $fileName);
+    }
+
+    public function exportPegawaiTeladan(Period $period) {
+        $fileName = 'Rekap_Pegawai_Teladan_' . Str::slug($period->name) . '.xlsx';
+        return Excel::download(new PegawaiTeladanExport($period), $fileName);
+    }
+    
+    public function exportKetuaTimTeladan(Period $period) {
+        $fileName = 'Rekap_Ketua_Tim_Teladan_' . Str::slug($period->name) . '.xlsx';
+        return Excel::download(new KetuaTimTeladanExport($period), $fileName);
+    }
+
+    
 }

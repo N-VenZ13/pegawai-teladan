@@ -67,6 +67,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/{period}', [RecapController::class, 'show'])->name('show');
         Route::post('/{period}/publish', [RecapController::class, 'publish'])->name('publish');
         Route::post('/{period}/upload', [RecapController::class, 'uploadFiles'])->name('upload_files');
+        Route::get('/{period}/export/peer-to-peer', [RecapController::class, 'exportPeerToPeer'])->name('export.peer_to_peer');
+        Route::get('/{period}/export/team-leader-peer', [RecapController::class, 'exportTeamLeaderPeer'])->name('export.team_leader_peer');
+        Route::get('/{period}/export/pegawai-teladan', [RecapController::class, 'exportPegawaiTeladan'])->name('export.pegawai_teladan');
+        Route::get('/{period}/export/ketua-tim-teladan', [RecapController::class, 'exportKetuaTimTeladan'])->name('export.ketua_tim_teladan');
     });
 
     // --- RUTE PEGAWAI & PIMPINAN ---
