@@ -129,17 +129,17 @@ class VotingController extends Controller
 
     public function showResult(Period $period)
     {
-        // Pastikan periode yang diakses sudah published
         if ($period->status !== 'published') {
             abort(404);
         }
 
-        // Pinjam logika kalkulasi dari RecapController
-        // Ini cara cepat, cara yang lebih ideal adalah memindahkan logika kalkulasi ke "Service Class"
-        // tersendiri, tapi untuk sekarang ini sudah cukup.
+        // Buat instance dari RecapController untuk meminjam logikanya
         $recapController = new RecapController();
-        $recapData = $recapController->calculateRecap($period); // Kita akan buat method ini
 
-        return view('employee.results.show', compact('period', 'recapData'));
+        // Panggil method kalkulasi DUA KALI
+        $recapPegawai = $recapController->calculateRecap($period, 'pegawai');
+        $recapKetuaTim = $recapController->calculateRecap($period, 'ketua_tim');
+
+        return view('employee.results.show', compact('period', 'recapPegawai', 'recapKetuaTim'));
     }
 }

@@ -13,7 +13,7 @@
                 <div class="p-6 text-gray-900">
 
                     <div class="mb-4 text-right">
-                        <a href="{{ route('admin.users.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('admin.users.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
                             + Tambah User
                         </a>
                     </div>

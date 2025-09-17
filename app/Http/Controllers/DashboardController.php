@@ -24,9 +24,13 @@ class DashboardController extends Controller
             return $this->adminDashboard();
         }
 
-        // Untuk SEMUA role lain (Pegawai, Pimpinan, Bagian Umum),
-        // tampilkan dashboard karyawan/pegawai.
-        if ($user->hasRole(['Pegawai', 'Pimpinan', 'Bagian Umum'])) {
+        
+
+        if ($user->hasRole('Bagian Umum')) {
+            return $this->bagianUmumDashboard();
+        }
+
+        if ($user->hasRole(['Pegawai', 'Kepala BPS'])) {
             return $this->employeeDashboard($user);
         }
 
@@ -39,7 +43,7 @@ class DashboardController extends Controller
     private function adminDashboard()
     {
         $totalPegawai = User::role('Pegawai')->count();
-        $totalPimpinan = User::role('Pimpinan')->count();
+        $totalKepalaBps = User::role('Kepala BPS')->count();
         $activePeriod = Period::where('status', 'active')->first();
 
         // --- PERBAIKAN DI SINI ---
@@ -63,7 +67,7 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', compact(
             'totalPegawai',
-            'totalPimpinan',
+            'totalKepalaBps',
             'activePeriod',
             'progress',
             'publishedResults'
@@ -90,5 +94,13 @@ class DashboardController extends Controller
             'pendingAssignmentsCount',
             'latestPublishedPeriod'
         ));
+    }
+
+    private function bagianUmumDashboard()
+    {
+        $activePeriod = Period::where('status', 'active')->first();
+
+        // Kirimkan hanya data yang relevan
+        return view('umum.dashboard', compact('activePeriod'));
     }
 }

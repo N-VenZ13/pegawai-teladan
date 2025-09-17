@@ -18,6 +18,27 @@
         </a>
     </li>
 
+    <!-- MENU PEGAWAI & Kepala BPS -->
+    @role('Pegawai|Kepala BPS')
+    <li>
+        <a href="{{ route('voting.index') }}" 
+           class="flex items-center p-2 rounded-lg transition-colors duration-200 
+                  {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') 
+                     ? 'bg-brand-blue text-white shadow-sm' 
+                     : 'text-gray-900 hover:bg-gray-100' }}">
+            <!-- tambahkan icon penilaian -->
+            <svg class="w-5 h-5 transition duration-75 
+                        {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') 
+                           ? 'text-white' 
+                           : 'text-gray-500 group-hover:text-gray-900' }}"
+                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
+            </svg>
+            <span class="ms-3">Penilaian Saya</span>
+        </a>
+    </li>
+    @endrole
+
     @role('Admin')
     <li>
         <a href="{{ route('admin.users.index') }}" 
@@ -86,7 +107,7 @@
                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
             </svg>
-            <span class="ms-3">Kriteria Pimpinan</span>
+            <span class="ms-3">Kriteria Kepala BPS</span>
         </a>
     </li>
     @endrole
@@ -96,7 +117,7 @@
     <li><a href="{{ route('admin.users.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.users.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Manajemen User</span></a></li>
     <li><a href="{{ route('admin.periods.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.periods.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Manajemen Periode</span></a></li>
     <li><a href="{{ route('admin.questions.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.questions.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Pertanyaan Pegawai</span></a></li>
-    <li><a href="{{ route('admin.leader-criteria.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.leader-criteria.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Kriteria Pimpinan</span></a></li>
+    <li><a href="{{ route('admin.leader-criteria.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.leader-criteria.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Kriteria Kepala BPS</span></a></li>
     @endrole -->
 
     @role('Admin|Bagian Umum')
@@ -159,7 +180,7 @@
     <li><a href="{{ route('skp.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('skp.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Input SKP</span></a></li>
     @endrole -->
 
-    @role('Pimpinan')
+    @role('Kepala BPS')
     <li>
         <a href="{{ route('leader.evaluation.index') }}" 
            class="flex items-center p-2 rounded-lg transition-colors duration-200 
@@ -174,18 +195,18 @@
                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
             </svg>
-            <span class="ms-3">Evaluasi Pimpinan</span>
+            <span class="ms-3">Evaluasi Kepala BPS</span>
         </a>
     </li>
     @endrole
-    <!-- MENU KHUSUS PIMPINAN -->
-    <!-- @role('Pimpinan')
-    <li><a href="{{ route('leader.evaluation.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('leader.evaluation.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Evaluasi Pimpinan</span></a></li>
+    <!-- MENU KHUSUS Kepala BPS -->
+    <!-- @role('Kepala BPS')
+    <li><a href="{{ route('leader.evaluation.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('leader.evaluation.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Evaluasi Kepala BPS</span></a></li>
     @endrole -->
 
-    <!-- MENU REKAP (ADMIN & PIMPINAN) -->
+    <!-- MENU REKAP (ADMIN & Kepala BPS) -->
 
-    @role('Admin|Pimpinan')
+    @role('Admin|Kepala BPS')
     <li>
         <a href="{{ route('recap.select_period') }}" 
            class="flex items-center p-2 rounded-lg transition-colors duration-200 
@@ -204,31 +225,12 @@
         </a>
     </li>
     @endrole
-    <!-- @role('Admin|Pimpinan')
+    <!-- @role('Admin|Kepala BPS')
     <li><a href="{{ route('recap.select_period') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('recap.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Rekapitulasi</span></a></li>
     @endrole -->
 
-    <!-- MENU PEGAWAI & PIMPINAN -->
-    @role('Pegawai|Pimpinan')
-    <li>
-        <a href="{{ route('voting.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon penilaian -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
-            </svg>
-            <span class="ms-3">Penilaian Saya</span>
-        </a>
-    </li>
-    @endrole
-    <!-- @role('Pegawai|Pimpinan')
+    
+    <!-- @role('Pegawai|Kepala BPS')
     <li><a href="{{ route('voting.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') ? 'bg-gray-100' : '' }}"><span class="ms-3">Penilaian Saya</span></a></li>
     <li><a href="{{ route('voting.results.list') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('voting.results.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Lihat Hasil</span></a></li>
     @endrole -->

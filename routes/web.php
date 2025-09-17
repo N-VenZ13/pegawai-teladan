@@ -56,13 +56,13 @@ Route::middleware('auth')->group(function () {
     });
 
     // --- RUTE KHUSUS PIMPINAN ---
-    Route::prefix('evaluasi-pimpinan')->name('leader.evaluation.')->middleware(['role:Pimpinan'])->group(function () {
+    Route::prefix('evaluasi-pimpinan')->name('leader.evaluation.')->middleware(['role:Kepala BPS'])->group(function () {
         Route::get('/', [EvaluationController::class, 'index'])->name('index');
         Route::post('/', [EvaluationController::class, 'store'])->name('store');
     });
 
     // --- RUTE REKAPITULASI (ADMIN & PIMPINAN) ---
-    Route::prefix('rekapitulasi')->name('recap.')->middleware(['role:Admin|Pimpinan'])->group(function () {
+    Route::prefix('rekapitulasi')->name('recap.')->middleware(['role:Admin|Kepala BPS'])->group(function () {
         Route::get('/', [RecapController::class, 'selectPeriod'])->name('select_period');
         Route::get('/{period}', [RecapController::class, 'show'])->name('show');
         Route::post('/{period}/publish', [RecapController::class, 'publish'])->name('publish');
@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // --- RUTE PEGAWAI & PIMPINAN ---
-    Route::prefix('penilaian')->name('voting.')->middleware(['role:Pegawai|Pimpinan'])->group(function () {
+    Route::prefix('penilaian')->name('voting.')->middleware(['role:Pegawai|Kepala BPS'])->group(function () {
         Route::get('/tugas-saya', [VotingController::class, 'index'])->name('index');
         Route::get('/hasil', [VotingController::class, 'listPublishedPeriods'])->name('results.list');
         Route::get('/hasil/{period}', [VotingController::class, 'showResult'])->name('results.show');

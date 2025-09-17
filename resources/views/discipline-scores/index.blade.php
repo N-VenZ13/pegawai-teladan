@@ -25,10 +25,10 @@
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white border">
+                            <table class="min-w-full bg-white border table-fixed">
                                 <thead class="bg-gray-200">
                                     <tr>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
+                                        <th class="w-[30%] py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
                                         @foreach($criteria as $criterion)
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">{{ $criterion->name }}</th>
                                         @endforeach
@@ -40,7 +40,7 @@
                                         <td class="py-3 px-4 font-medium">{{ $user->name }}</td>
                                         @foreach($criteria as $criterion)
                                         <td class="py-3 px-4">
-                                            <input type="number"
+                                            <input type=""
                                                 name="scores[{{ $user->id }}][{{ $criterion->id }}]"
                                                 value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}"
                                                 class="w-full text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"

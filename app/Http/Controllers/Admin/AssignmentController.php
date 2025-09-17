@@ -20,7 +20,7 @@ class AssignmentController extends Controller
 
     public function generate(Period $period)
     {
-        $users = User::role(['Pegawai', 'Pimpinan'])->get();
+        $users = User::role(['Pegawai', 'Kepala BPS'])->get();
         $period->assignments()->delete();
         $assignments = [];
         $now = now();
@@ -33,12 +33,12 @@ class AssignmentController extends Controller
                 }
 
                 // ATURAN BARU: Pegawai tidak boleh menilai Pimpinan
-                if ($voter->hasRole('Pegawai') && $target->hasRole('Pimpinan')) {
+                if ($voter->hasRole('Pegawai') && $target->hasRole('Kepala BPS')) {
                     continue; // Lewati iterasi ini
                 }
 
                 // Aturan Lama: Pimpinan tidak menilai sesama Pimpinan di form ini
-                if ($voter->hasRole('Pimpinan') && $target->hasRole('Pimpinan')) {
+                if ($voter->hasRole('Pimpinan') && $target->hasRole('Kepala BPS')) {
                     continue;
                 }
 

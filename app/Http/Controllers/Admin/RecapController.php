@@ -30,8 +30,9 @@ class RecapController extends Controller
     public function show(Period $period)
     {
         // Panggil calculateRecap dengan parameter default 'all' untuk tampilan web
-        $recapData = $this->calculateRecap($period, 'all');
-        return view('admin.recap.show', compact('period', 'recapData'));
+        $recapPegawai = $this->calculateRecap($period, 'pegawai');
+        $recapKetuaTim = $this->calculateRecap($period, 'ketua_tim');
+        return view('admin.recap.show', compact('period', 'recapPegawai', 'recapKetuaTim'));
     }
 
     // Hanya ada SATU method calculateRecap()
@@ -40,9 +41,9 @@ class RecapController extends Controller
         if ($targetRole === 'pegawai') {
             $users = User::role('Pegawai')->where('is_ketua_tim', false)->orderBy('name')->get();
         } elseif ($targetRole === 'ketua_tim') {
-            $users = User::role(['Pegawai', 'Pimpinan'])->where('is_ketua_tim', true)->orderBy('name')->get();
+            $users = User::role(['Pegawai', 'Kepala BPS'])->where('is_ketua_tim', true)->orderBy('name')->get();
         } else {
-            $users = User::role(['Pegawai', 'Pimpinan'])->orderBy('name')->get();
+            $users = User::role(['Pegawai', 'Kepala BPS'])->orderBy('name')->get();
         }
 
         $peerScores = DB::table('assignments')
@@ -90,7 +91,8 @@ class RecapController extends Controller
             ];
         }
 
-        return collect($results)->sortByDesc('final_score');
+        $sortedResults = collect($results)->sortByDesc('final_score');
+        return $sortedResults->values();
     }
 
     public function publish(Period $period)
@@ -100,7 +102,7 @@ class RecapController extends Controller
         $user = Auth::user();
 
         // Hanya Pimpinan yang bisa publish
-        if (!$user || !$user->hasRole('Pimpinan')) {
+        if (!$user || !$user->hasRole('Kepala BPS')) {
             abort(403, 'Hanya Pimpinan yang dapat mempublikasikan hasil.');
         }
 
@@ -115,32 +117,33 @@ class RecapController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if (!$user || !$user->hasRole('Pimpinan')) {
+        if (!$user || !$user->hasRole('Kepala BPS')) {
             abort(403);
         }
 
         $request->validate([
-            'sk_file' => 'nullable|file|mimes:pdf|max:2048', // maks 2MB
-            'sertifikat_file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'sk_pegawai' => 'nullable|file|mimes:pdf|max:2048',
+            'sertifikat_pegawai' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'sk_ketua_tim' => 'nullable|file|mimes:pdf|max:2048',
+            'sertifikat_ketua_tim' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
         ]);
 
-        if ($request->hasFile('sk_file')) {
-            // Hapus file lama jika ada
-            if ($period->sk_file_path) {
-                Storage::disk('public')->delete($period->sk_file_path);
-            }
-            $path = $request->file('sk_file')->store('documents/sk', 'public');
-            $period->update(['sk_file_path' => $path]);
-        }
+        $filesToUpdate = [
+            'sk_pegawai' => 'sk_pegawai_path',
+            'sertifikat_pegawai' => 'sertifikat_pegawai_path',
+            'sk_ketua_tim' => 'sk_ketua_tim_path',
+            'sertifikat_ketua_tim' => 'sertifikat_ketua_tim_path',
+        ];
 
-        if ($request->hasFile('sertifikat_file')) {
-            if ($period->sertifikat_file_path) {
-                Storage::disk('public')->delete($period->sertifikat_file_path);
+        foreach ($filesToUpdate as $inputName => $columnName) {
+            if ($request->hasFile($inputName)) {
+                if ($period->$columnName) {
+                    Storage::disk('public')->delete($period->$columnName);
+                }
+                $path = $request->file($inputName)->store('documents/' . $inputName, 'public');
+                $period->update([$columnName => $path]);
             }
-            $path = $request->file('sertifikat_file')->store('documents/sertifikat', 'public');
-            $period->update(['sertifikat_file_path' => $path]);
         }
-
         return redirect()->back()->with('success', 'File berhasil diunggah.');
     }
 
@@ -150,7 +153,7 @@ class RecapController extends Controller
         $user = Auth::user();
 
         // Cek jika user ada DAN punya salah satu dari role yang diizinkan
-        if (!$user || !$user->hasRole(['Admin', 'Pimpinan'])) {
+        if (!$user || !$user->hasRole(['Admin', 'Kepala BPS'])) {
             abort(403, 'Aksi tidak diizinkan.');
         }
 
@@ -167,22 +170,22 @@ class RecapController extends Controller
         $user = Auth::user();
 
         // Cek jika user ada DAN punya salah satu dari role yang diizinkan
-        if (!$user || !$user->hasRole(['Admin', 'Pimpinan'])) {
+        if (!$user || !$user->hasRole(['Admin', 'Kepala BPS'])) {
             abort(403, 'Aksi tidak diizinkan.');
         }
         $fileName = 'Laporan_PeerToPeer_KetuaTim_' . Str::slug($period->name) . '.xlsx';
         return Excel::download(new TeamLeaderPeerExport($period), $fileName);
     }
 
-    public function exportPegawaiTeladan(Period $period) {
+    public function exportPegawaiTeladan(Period $period)
+    {
         $fileName = 'Rekap_Pegawai_Teladan_' . Str::slug($period->name) . '.xlsx';
         return Excel::download(new PegawaiTeladanExport($period), $fileName);
     }
-    
-    public function exportKetuaTimTeladan(Period $period) {
+
+    public function exportKetuaTimTeladan(Period $period)
+    {
         $fileName = 'Rekap_Ketua_Tim_Teladan_' . Str::slug($period->name) . '.xlsx';
         return Excel::download(new KetuaTimTeladanExport($period), $fileName);
     }
-
-    
 }

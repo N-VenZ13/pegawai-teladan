@@ -9,12 +9,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-50"> <!-- Latar Belakang Utama Abu-abu Muda -->
+<body class="font-sans antialiased bg-gray-50">
 
     <div>
         <!-- Sidebar -->
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-            <!-- BERI WARNA SIDEBAR PUTIH -->
             <div class="h-full px-3 py-4 overflow-y-auto bg-white shadow-lg">
                 <a href="{{ route('dashboard') }}" class="flex items-center ps-2.5 mb-5">
                     <img src="{{ asset('images/logo.png') }}" class="h-8 me-3" alt="Logo Perusahaan" />
@@ -27,12 +26,11 @@
         <!-- Content Area -->
         <div class="sm:ml-64">
             <!-- Top Bar (Header) -->
-            <!-- BIARKAN HEADER TETAP PUTIH DENGAN SHADOW -->
             <header class="bg-white shadow sticky top-0 z-30">
                 <div class="max-w-full mx-auto py-3 px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
                     <div class="flex items-center">
                         <!-- Hamburger Button -->
-                        <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-brand-blue rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200">
+                        <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-brand-blue rounded-lg sm:hidden hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200">
                             <span class="sr-only">Open sidebar</span>
                             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
@@ -76,6 +74,8 @@
             </main>
         </div>
     </div>
+
+    <!-- PASTIKAN INI ADA TEPAT SEBELUM </body> -->
     @stack('scripts')
 </body>
 

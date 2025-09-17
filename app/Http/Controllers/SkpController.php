@@ -19,7 +19,7 @@ class SkpController extends Controller
         }
 
         // Ambil semua user yang relevan (Pegawai & Pimpinan)
-        // $users = User::role(['Pegawai', 'Pimpinan'])->orderBy('name')->get();
+        // $users = User::role(['Pegawai', 'Kepala BPS'])->orderBy('name')->get();
         $users = User::role('Pegawai')->orderBy('name')->get();
 
         // Ambil data nilai SKP yang sudah ada. Strukturnya sedikit berbeda

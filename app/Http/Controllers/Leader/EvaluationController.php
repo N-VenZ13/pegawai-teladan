@@ -22,7 +22,7 @@ class EvaluationController extends Controller
         }
 
         // Ambil semua user kecuali Admin dan pimpinan itu sendiri
-        $users = User::role(['Pegawai', 'Pimpinan'])
+        $users = User::role(['Pegawai', 'Kepala BPS'])
             ->where('id', '!=', Auth::id())
             ->get();
 
@@ -35,6 +35,8 @@ class EvaluationController extends Controller
         $criteriaForKetuaTim = LeaderCriterion::whereIn('target_type', ['ketua_tim', 'semua'])
             ->where('is_active', true)
             ->get();
+
+        $allCriteria = $criteriaForPegawai->merge($criteriaForKetuaTim)->unique('id');
 
         // Ambil nilai yang sudah ada, tapi strukturnya sekarang beda
         $existingScores = LeaderAnswer::where('period_id', $activePeriod->id)
@@ -49,9 +51,12 @@ class EvaluationController extends Controller
                 return $item->score;
             });
 
+        
+
         return view('leader.evaluation.index', compact(
             'activePeriod',
             'users',
+            'allCriteria',
             'criteriaForPegawai',
             'criteriaForKetuaTim',
             'existingScores'

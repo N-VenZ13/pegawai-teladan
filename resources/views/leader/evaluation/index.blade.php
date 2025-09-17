@@ -21,17 +21,17 @@
                         </div>
                         @endif
                         <div class="text-right mb-4">
-                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-brand-blue ...">Simpan Semua Perubahan</button>
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">Simpan Semua Perubahan</button>
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white border">
+                            <table class="min-w-full bg-white border table-fixed">
                                 <thead class="bg-gray-200">
                                     <tr>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
-                                        <!-- Loop untuk membuat header kriteria dinamis -->
-                                        @foreach($criteriaForPegawai as $criterion) {{-- Kita ambil satu set kriteria sebagai sampel header --}}
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center w-32">{{ $criterion->name }}</th>
+                                        <!-- Header tabel sekarang dibuat dari SEMUA kemungkinan kriteria -->
+                                        @foreach($allCriteria as $criterion)
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">{{ $criterion->name }}</th>
                                         @endforeach
                                     </tr>
                                 </thead>
@@ -47,15 +47,25 @@
 
                                         @php
                                         $criteriaToUse = $user->is_ketua_tim ? $criteriaForKetuaTim : $criteriaForPegawai;
+                                        // Ubah collection menjadi array dengan key 'id' untuk pengecekan cepat
+                                        $userCriteriaIds = $criteriaToUse->pluck('id');
                                         @endphp
 
-                                        @foreach($criteriaToUse as $criterion)
+                                        <!-- Loop melalui SEMUA kemungkinan kriteria -->
+                                        @foreach($allCriteria as $criterion)
                                         <td class="py-3 px-4">
-                                            <input type="number"
+                                            <!-- Cek apakah user ini HARUS dinilai dengan kriteria ini -->
+                                            @if($userCriteriaIds->contains($criterion->id))
+                                            <!-- Jika ya, tampilkan input -->
+                                            <input type=""
                                                 name="scores[{{ $user->id }}][{{ $criterion->id }}]"
                                                 value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}"
-                                                class="w-full text-center rounded-md border-gray-300 ..."
+                                                class="w-full text-center rounded-md ..."
                                                 min="0" max="100">
+                                            @else
+                                            <!-- Jika tidak, tampilkan sel kosong/non-aktif -->
+                                            <div class="w-full text-center text-gray-400 bg-gray-100 py-2 rounded-md">-</div>
+                                            @endif
                                         </td>
                                         @endforeach
                                     </tr>

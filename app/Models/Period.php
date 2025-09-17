@@ -14,8 +14,10 @@ class Period extends Model
         'start_date',
         'end_date',
         'status',
-        'sk_file_path',         // <-- TAMBAHKAN INI
-        'sertifikat_file_path', // <-- TAMBAHKAN INI
+        'sk_pegawai_path',
+        'sertifikat_pegawai_path',
+        'sk_ketua_tim_path',
+        'sertifikat_ketua_tim_path', // <-- TAMBAHKAN INI
         'month_1_name',
         'month_2_name',
         'month_3_name'

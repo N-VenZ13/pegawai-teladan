@@ -15,13 +15,13 @@
             <p class="text-xs text-gray-400 mt-4">Jumlah seluruh pegawai aktif</p>
         </div>
 
-        <!-- Widget Total Pimpinan -->
+        <!-- Widget Total Kepala BPS -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 flex flex-col justify-between">
             <div>
-                <h3 class="text-gray-500 text-sm font-medium uppercase tracking-wider">Total Pimpinan</h3>
-                <p class="text-4xl font-bold text-brand-green mt-1">{{ $totalPimpinan }}</p>
+                <h3 class="text-gray-500 text-sm font-medium uppercase tracking-wider">Total Kepala BPS</h3>
+                <p class="text-4xl font-bold text-brand-green mt-1">{{ $totalKepalaBps }}</p>
             </div>
-            <p class="text-xs text-gray-400 mt-4">Jumlah pimpinan/ketua tim</p>
+            <p class="text-xs text-gray-400 mt-4">Jumlah Kepala BPS/ketua tim</p>
         </div>
         
         <!-- Widget Periode Aktif & Progres -->

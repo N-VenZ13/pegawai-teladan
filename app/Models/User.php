@@ -22,6 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nip',
+        'jabatan',
+        'is_ketua_tim',
+        'profile_photo_path',
     ];
 
     /**
