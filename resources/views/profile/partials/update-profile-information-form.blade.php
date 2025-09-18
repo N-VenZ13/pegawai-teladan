@@ -22,7 +22,7 @@
             <x-input-label for="photo" :value="__('Foto Profil')" />
             <div class="mt-2 flex items-center gap-x-3">
                 <!-- Foto Avatar Saat Ini -->
-                <img class="h-24 w-24 rounded-full object-cover" src="{{ $user->profile_photo_path ? Storage::url($user->profile_photo_path) : asset('images/default-avatar.png') }}" alt="Current profile photo">
+                <img class="h-24 w-24 rounded-full object-cover" src="{{ $user->profile_photo_path ? Storage::url($user->profile_photo_path) : asset('images/logo.png') }}" alt="Current profile photo">
 
                 <!-- Tombol Upload -->
                 <input id="photo" name="photo" type="file" class="block w-full text-sm text-gray-500

@@ -9,17 +9,35 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- DAFTAR YANG HARUS DINILAI -->
+            <!-- Blok Penilaian Pegawai -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-medium mb-4">Perlu Dinilai ({{ $pendingAssignments->count() }})</h3>
+                    <h3 class="text-lg font-medium mb-4">Perlu Dinilai: Rekan Pegawai ({{ $pendingPegawai->count() }})</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        @forelse($pendingAssignments as $assignment)
-                        <a href="{{ route('voting.show', $assignment->id) }}" class="block p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-indigo-50 hover:border-indigo-400 transition">
-                            <p class="font-semibold text-gray-800">{{ $assignment->target->name }}</p>
+                        @forelse($pendingPegawai as $assignment)
+                        <a href="{{ route('voting.show', $assignment->id) }}" class="...">
+                            <p class="font-semibold">{{ $assignment->target->name }}</p>
                             <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
                         </a>
                         @empty
-                        <p class="text-gray-500 col-span-3">Hebat! Anda sudah menyelesaikan semua tugas penilaian.</p>
+                        <p class="col-span-3">Tidak ada rekan pegawai yang perlu dinilai.</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blok Penilaian Ketua Tim -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6 text-gray-900">
+                    <h3 class="text-lg font-medium mb-4">Perlu Dinilai: Ketua Tim ({{ $pendingKetuaTim->count() }})</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        @forelse($pendingKetuaTim as $assignment)
+                        <a href="{{ route('voting.show', $assignment->id) }}" class="...">
+                            <p class="font-semibold">{{ $assignment->target->name }}</p>
+                            <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
+                        </a>
+                        @empty
+                        <p class="col-span-3">Tidak ada ketua tim yang perlu dinilai.</p>
                         @endforelse
                     </div>
                 </div>

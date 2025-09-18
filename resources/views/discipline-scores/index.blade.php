@@ -24,7 +24,7 @@
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">Simpan Semua Perubahan</button>
                         </div>
 
-                        <div class="overflow-x-auto">
+                        <div class="overflow-x-auto border rounded-lg">
                             <table class="min-w-full bg-white border table-fixed">
                                 <thead class="bg-gray-200">
                                     <tr>
@@ -37,10 +37,10 @@
                                 <tbody>
                                     @foreach($users as $user)
                                     <tr class="hover:bg-gray-50">
-                                        <td class="py-3 px-4 font-medium">{{ $user->name }}</td>
+                                        <td class="py-3 px-4 font-medium @if(!$loop->last) border-r @endif">{{ $user->name }}</td>
                                         @foreach($criteria as $criterion)
-                                        <td class="py-3 px-4">
-                                            <input type=""
+                                        <td >
+                                            <input type=""class="px-6 py-4 whitespace-nowrap text-center text-gray-500 @if(!$loop->last) border-r @endif"
                                                 name="scores[{{ $user->id }}][{{ $criterion->id }}]"
                                                 value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}"
                                                 class="w-full text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"

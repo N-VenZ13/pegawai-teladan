@@ -18,16 +18,13 @@ class EvaluationController extends Controller
     {
         $activePeriod = Period::where('status', 'active')->first();
         if (!$activePeriod) {
-            return view('leader.evaluation.no_period'); // Buat view ini
+            return view('leader.evaluation.no_period');
         }
 
-        // Ambil semua user kecuali Admin dan pimpinan itu sendiri
         $users = User::role(['Pegawai', 'Kepala BPS'])
             ->where('id', '!=', Auth::id())
             ->get();
 
-        // Ambil SEMUA kriteria yang aktif
-        // $criteria = LeaderCriterion::where('is_active', true)->get();
         $criteriaForPegawai = LeaderCriterion::whereIn('target_type', ['pegawai', 'semua'])
             ->where('is_active', true)
             ->get();
@@ -36,27 +33,22 @@ class EvaluationController extends Controller
             ->where('is_active', true)
             ->get();
 
+        // --- TAMBAHKAN LOGIKA INI ---
+        // Gabungkan kedua set kriteria, lalu ambil yang unik berdasarkan 'id'
+        // Ini akan menjadi dasar untuk membuat header tabel yang konsisten.
         $allCriteria = $criteriaForPegawai->merge($criteriaForKetuaTim)->unique('id');
+        // --- AKHIR LOGIKA BARU ---
 
-        // Ambil nilai yang sudah ada, tapi strukturnya sekarang beda
         $existingScores = LeaderAnswer::where('period_id', $activePeriod->id)
             ->where('leader_id', Auth::id())
             ->get()
-            ->keyBy(function ($item) {
-                // Buat key unik: "targetId-criterionId" -> "12-1"
-                return $item->target_id . '-' . $item->leader_criterion_id;
-            })
-            ->map(function ($item) {
-                // Hanya ambil skornya
-                return $item->score;
-            });
-
-        
+            ->keyBy(fn($item) => $item->target_id . '-' . $item->leader_criterion_id)
+            ->map(fn($item) => $item->score);
 
         return view('leader.evaluation.index', compact(
             'activePeriod',
             'users',
-            'allCriteria',
+            'allCriteria', // <-- KIRIM VARIABEL BARU INI KE VIEW
             'criteriaForPegawai',
             'criteriaForKetuaTim',
             'existingScores'

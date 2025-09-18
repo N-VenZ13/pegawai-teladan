@@ -1,6 +1,8 @@
 <!-- resources/views/leader/evaluation/index.blade.php -->
 <x-main-layout>
-    <x-slot name="header">...</x-slot>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Input Evaluasi Kepala BPS') }} (Periode: {{ $activePeriod->name }})</h2>
+    </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <form action="{{ route('leader.evaluation.store') }}" method="POST">
@@ -24,57 +26,76 @@
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">Simpan Semua Perubahan</button>
                         </div>
 
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white border table-fixed">
-                                <thead class="bg-gray-200">
-                                    <tr>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
-                                        <!-- Header tabel sekarang dibuat dari SEMUA kemungkinan kriteria -->
-                                        @foreach($allCriteria as $criterion)
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">{{ $criterion->name }}</th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($users as $user)
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="py-3 px-4 font-medium">
-                                            {{ $user->name }}
-                                            @if($user->is_ketua_tim)
-                                            <span class="ml-2 text-xs font-bold text-purple-800 bg-purple-200 px-2 py-1 rounded-full">Ketua Tim</span>
-                                            @endif
-                                        </td>
+                        <!-- ======================================= -->
+                        <!--       TABEL UNTUK PEGAWAI BIASA       -->
+                        <!-- ======================================= -->
+                        <div class="mb-10">
+                            <h4 class="text-lg font-semibold mb-2 text-gray-700">Penilaian Pegawai</h4>
+                            <div class="overflow-x-auto border rounded-lg">
+                                <table class="w-full table-fixed">
+                                    <thead class="bg-gray-50 border-b">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Nama Pegawai</th>
+                                            @foreach($criteriaForPegawai as $criterion)
+                                            <th class="px-4 py-3 text-center text-xs font-medium text-gray-500">{{ $criterion->name }}</th>
+                                            @endforeach
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        @forelse($users->where('is_ketua_tim', false) as $user)
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
+                                            @foreach($criteriaForPegawai as $criterion)
+                                            <td class="px-6 py-4">
+                                                <input type="" name="scores[{{ $user->id }}][{{ $criterion->id }}]" value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}" class="w-full text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" min="0" max="100">
+                                            </td>
+                                            @endforeach
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="{{ $criteriaForPegawai->count() + 1 }}" class="text-center py-4 text-gray-500">Tidak ada data pegawai.</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-                                        @php
-                                        $criteriaToUse = $user->is_ketua_tim ? $criteriaForKetuaTim : $criteriaForPegawai;
-                                        // Ubah collection menjadi array dengan key 'id' untuk pengecekan cepat
-                                        $userCriteriaIds = $criteriaToUse->pluck('id');
-                                        @endphp
-
-                                        <!-- Loop melalui SEMUA kemungkinan kriteria -->
-                                        @foreach($allCriteria as $criterion)
-                                        <td class="py-3 px-4">
-                                            <!-- Cek apakah user ini HARUS dinilai dengan kriteria ini -->
-                                            @if($userCriteriaIds->contains($criterion->id))
-                                            <!-- Jika ya, tampilkan input -->
-                                            <input type=""
-                                                name="scores[{{ $user->id }}][{{ $criterion->id }}]"
-                                                value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}"
-                                                class="w-full text-center rounded-md ..."
-                                                min="0" max="100">
-                                            @else
-                                            <!-- Jika tidak, tampilkan sel kosong/non-aktif -->
-                                            <div class="w-full text-center text-gray-400 bg-gray-100 py-2 rounded-md">-</div>
-                                            @endif
-                                        </td>
-                                        @endforeach
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                        <!-- ======================================= -->
+                        <!--        TABEL UNTUK KETUA TIM          -->
+                        <!-- ======================================= -->
+                        <div>
+                            <h4 class="text-lg font-semibold mb-2 text-gray-700">Penilaian Ketua Tim</h4>
+                            <div class="overflow-x-auto border rounded-lg">
+                                <table class="w-full table-fixed">
+                                    <thead class="bg-gray-50 border-b">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Nama Ketua Tim</th>
+                                            @foreach($criteriaForKetuaTim as $criterion)
+                                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500">{{ $criterion->name }}</th>
+                                            @endforeach
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        @forelse($users->where('is_ketua_tim', true) as $user)
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
+                                            @foreach($criteriaForKetuaTim as $criterion)
+                                            <td class="px-6 py-4">
+                                                <input type="" name="scores[{{ $user->id }}][{{ $criterion->id }}]" value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}" class="w-full text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" min="0" max="100">
+                                            </td>
+                                            @endforeach
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="{{ $criteriaForKetuaTim->count() + 1 }}" class="text-center py-4 text-gray-500">Tidak ada data ketua tim.</td>
+                                        </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
             </form>
         </div>
     </div>

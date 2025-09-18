@@ -47,15 +47,15 @@
 
                             <div>
                                 <label for="month_1_name">Nama Bulan 1 (untuk Label SKP)</label>
-                                <input type="text" name="month_1_name" value="{{ old('month_1_name', $period->month_1_name ?? '') }}" class="..." placeholder="Contoh: Juli">
+                                <input type="text" name="month_1_name" value="{{ old('month_1_name', $period->month_1_name ?? '') }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Contoh: Juli">
                             </div>
                             <div>
                                 <label for="month_2_name">Nama Bulan 2 (untuk Label SKP)</label>
-                                <input type="text" name="month_2_name" value="{{ old('month_2_name', $period->month_2_name ?? '') }}" class="..." placeholder="Contoh: Agustus">
+                                <input type="text" name="month_2_name" value="{{ old('month_2_name', $period->month_2_name ?? '') }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Contoh: Agustus">
                             </div>
                             <div>
                                 <label for="month_3_name">Nama Bulan 3 (untuk Label SKP)</label>
-                                <input type="text" name="month_3_name" value="{{ old('month_3_name', $period->month_3_name ?? '') }}" class="..." placeholder="Contoh: September">
+                                <input type="text" name="month_3_name" value="{{ old('month_3_name', $period->month_3_name ?? '') }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Contoh: September">
                             </div>
                         </div>
 

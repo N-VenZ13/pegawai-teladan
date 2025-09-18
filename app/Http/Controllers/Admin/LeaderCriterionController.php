@@ -28,15 +28,15 @@ class LeaderCriterionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255', // <-- Diubah (dari 'text')
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'target_type' => 'required|in:pegawai,ketua_tim',
             'target_type' => 'required|in:pegawai,ketua_tim,semua',
         ]);
 
-        LeaderCriterion::create([ // <-- Diubah
-            'name' => $request->name, // <-- Diubah
+        LeaderCriterion::create([
+            'name' => $request->name,
             'description' => $request->description,
+            'target_type' => $request->target_type, // Pastikan ini ada
             'is_active' => $request->has('is_active'),
         ]);
 
@@ -57,19 +57,23 @@ class LeaderCriterionController extends Controller
      */
     public function update(Request $request, LeaderCriterion $leaderCriterion) // <-- Diubah
     {
+        // 1. Pastikan validasi sudah mencakup 'target_type'
         $request->validate([
-            'name' => 'required|string|max:255', // <-- Diubah
+            'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'target_type' => 'required|in:pegawai,ketua_tim,semua', // WAJIB ADA
         ]);
 
-        $leaderCriterion->update([ // <-- Diubah
-            'name' => $request->name, // <-- Diubah
+        // 2. Pastikan 'target_type' dimasukkan ke dalam array update
+        $leaderCriterion->update([
+            'name' => $request->name,
             'description' => $request->description,
+            'target_type' => $request->target_type, // INI YANG HILANG
             'is_active' => $request->has('is_active'),
         ]);
 
-        return redirect()->route('admin.leader-criteria.index') // <-- Diubah
-            ->with('success', 'Kriteria Pimpinan berhasil diperbarui.'); // <-- Diubah
+        return redirect()->route('admin.leader-criteria.index')
+            ->with('success', 'Kriteria Kepala BPS berhasil diperbarui.');
     }
 
     /**

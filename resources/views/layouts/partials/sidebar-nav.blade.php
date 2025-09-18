@@ -235,3 +235,17 @@
     <li><a href="{{ route('voting.results.list') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('voting.results.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Lihat Hasil</span></a></li>
     @endrole -->
 </ul>
+
+<!-- Bagian Tambahan di Bawah Menu Utama -->
+<div class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
+    <li>
+        <a href="{{ route('profile.edit') }}" 
+           class="flex items-center p-2 rounded-lg transition-colors duration-200 {{ request()->routeIs('profile.edit') ? 'bg-brand-blue text-white shadow-sm' : 'text-gray-900 hover:bg-gray-100' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('profile.edit') ? 'text-white' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="ms-3">Profil Saya</span>
+        </a>
+    </li>
+    <!-- Link Logout bisa ditambahkan di sini juga jika mau -->
+</div>

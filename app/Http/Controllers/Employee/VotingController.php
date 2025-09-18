@@ -19,27 +19,29 @@ class VotingController extends Controller
         // 1. Cari periode yang sedang aktif
         $activePeriod = Period::where('status', 'active')->first();
 
-        // Jika tidak ada periode aktif, tampilkan halaman kosong
         if (!$activePeriod) {
             return view('employee.voting.no_period');
         }
 
-        // 2. Ambil semua tugas penilaian untuk user yang sedang login di periode aktif
-        /** @var \App\Models\User $user */ // Ini adalah "petunjuk" untuk editor
+        /** @var \App\Models\User $user */ // <-- TAMBAHKAN PETUNJUK INI
         $user = Auth::user();
 
-        $assignments = $user->assignmentsAsVoter()
+        // Gunakan variabel $user yang sudah jelas tipenya
+        $allAssignments = $user->assignmentsAsVoter()
             ->where('period_id', $activePeriod->id)
             ->with('target')
             ->get();
 
-        // 3. Pisahkan antara yang sudah dan belum selesai
-        $completedAssignments = $assignments->where('status', 'completed');
-        $pendingAssignments = $assignments->where('status', 'pending');
+        $completedAssignments = $allAssignments->where('status', 'completed');
+        $pendingAssignments = $allAssignments->where('status', 'pending');
+
+        $pendingPegawai = $pendingAssignments->filter(fn($a) => !$a->target->is_ketua_tim);
+        $pendingKetuaTim = $pendingAssignments->filter(fn($a) => $a->target->is_ketua_tim);
 
         return view('employee.voting.index', compact(
             'activePeriod',
-            'pendingAssignments',
+            'pendingPegawai',
+            'pendingKetuaTim',
             'completedAssignments'
         ));
     }
