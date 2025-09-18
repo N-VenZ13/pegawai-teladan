@@ -1,6 +1,5 @@
 # SIPEKA - Sistem Penilaian Kinerja Pegawai
 
-![Dashboard SIPEKA](https://storage.googleapis.com/prompt-engineering-attachments/5d2d5069-b54c-4a37-9759-4ac63556f8f5.png)
 
 ## 📌 Tentang Proyek
 
