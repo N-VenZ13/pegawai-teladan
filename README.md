@@ -1,61 +1,128 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SIPEKA - Sistem Penilaian Kinerja Pegawai
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Dashboard SIPEKA](https://storage.googleapis.com/prompt-engineering-attachments/5d2d5069-b54c-4a37-9759-4ac63556f8f5.png)
 
-## About Laravel
+## 📌 Tentang Proyek
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**SIPEKA** (Sistem Penilaian Kinerja Pegawai) adalah aplikasi web yang dirancang untuk mengelola dan mengotomatiskan proses penilaian pegawai teladan dan ketua tim teladan di lingkungan perusahaan. Aplikasi ini dibangun untuk menggantikan metode manual (seperti Google Forms atau Excel), menyediakan alur kerja yang terstruktur, aman, dan transparan.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Proyek ini dibangun menggunakan **Laravel 12** dan **Tailwind CSS**, dengan fokus pada arsitektur multi-peran dan proses bisnis yang dapat disesuaikan.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## ✨ Fitur Utama
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Aplikasi ini membagi fungsionalitas berdasarkan empat peran utama:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 👤 Admin (Super User)
+- **Manajemen User:** CRUD penuh untuk semua akun pengguna (`Admin`, `Kepala BPS`, `Bagian Umum`, `Pegawai`).
+- **Manajemen Periode:** Mengatur periode penilaian (misal: Triwulan IV 2025) dan mengontrol statusnya (`Active`, `Finished`, `Published`).
+- **Manajemen Konten Penilaian:**
+  - Mengelola pertanyaan untuk penilaian rekan kerja (Peer-to-Peer).
+  - Mengelola kriteria untuk evaluasi oleh Kepala BPS (terpisah untuk Pegawai & Ketua Tim).
+  - Mengelola kriteria untuk penilaian disiplin.
+- **Generate Tugas:** Membuat tugas penilaian "siapa menilai siapa" secara otomatis untuk satu periode.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 👑 Kepala BPS (Decision Maker)
+- **Evaluasi Kinerja:** Memberikan penilaian strategis berbasis kriteria kepada semua Pegawai dan Ketua Tim.
+- **Rekapitulasi & Publikasi:** Mereview hasil akhir yang sudah dikalkulasi, mempublikasikan hasil secara resmi, dan mengunggah dokumen SK/Sertifikat.
+- **Penilaian Rekan:** Berpartisipasi dalam menilai sesama Kepala BPS (jika dikonfigurasi).
 
-## Laravel Sponsors
+### 📋 Bagian Umum (Data Administrator)
+- **Input Nilai SKP:** Memasukkan nilai SKP bulanan untuk semua pegawai.
+- **Input Nilai Disiplin:** Memasukkan nilai kedisiplinan berdasarkan kriteria yang telah ditentukan.
+- **Manajemen Kriteria Disiplin:** Mengelola daftar kriteria disiplin.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 👥 Pegawai (Partisipan)
+- **Penilaian Rekan Kerja:** Memberikan penilaian (skala 1-10) kepada rekan kerja dan/atau ketua tim yang ditugaskan.
+- **Melihat Progres:** Memantau tugas penilaian mana yang sudah dan belum diselesaikan.
+- **Melihat Hasil Akhir:** Mengakses halaman peringkat resmi (Podium 3 Besar) setelah dipublikasikan.
+- **Unduh Dokumen:** Mengunduh file SK dan Sertifikat yang relevan.
+- **Profil Pengguna:** Mengelola data diri dan foto profil.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🚀 Teknologi yang Digunakan
 
-## Contributing
+- **Backend:** Laravel 12
+- **Frontend:** Blade, Tailwind CSS, Alpine.js, Flowbite
+- **Database:** MySQL
+- **Manajemen Peran:** `spatie/laravel-permission`
+- **Ekspor Excel:** `maatwebsite/excel`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## ⚙️ Instalasi & Setup Lokal
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Untuk menjalankan proyek ini di lingkungan lokal, ikuti langkah-langkah berikut:
 
-## Security Vulnerabilities
+1.  **Clone repository:**
+    ```bash
+    git clone https://github.com/nama-anda/nama-repo.git
+    cd nama-repo
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2.  **Install dependensi PHP:**
+    ```bash
+    composer install
+    ```
 
-## License
+3.  **Install dependensi JavaScript:**
+    ```bash
+    npm install
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4.  **Setup Environment:**
+    - Salin `.env.example` menjadi `.env`.
+      ```bash
+      cp .env.example .env
+      ```
+    - Buat *application key* baru.
+      ```bash
+      php artisan key:generate
+      ```
+    - Konfigurasi koneksi database Anda di dalam file `.env`.
+
+5.  **Jalankan Migrasi & Seeder:**
+    Perintah ini akan membuat semua tabel database dan mengisi data awal (role dan user admin default).
+    ```bash
+    php artisan migrate:fresh --seed
+    ```
+
+6.  **Buat Symbolic Link untuk Storage:**
+    ```bash
+    php artisan storage:link
+    ```
+
+7.  **Jalankan Server:**
+    - Buka dua terminal.
+    - Di terminal pertama, jalankan Vite (compiler frontend):
+      ```bash
+      npm run dev
+      ```
+    - Di terminal kedua, jalankan server PHP:
+      ```bash
+      php artisan serve
+      ```
+
+8.  **Akses Aplikasi:**
+    Buka browser dan kunjungi `http://127.0.0.1:8000`.
+
+---
+
+## 🔑 Akun Default
+
+Setelah menjalankan `migrate:fresh --seed`, Anda bisa login menggunakan akun berikut:
+
+-   **Role:** Admin
+-   **Email:** `admin@perusahaan.com`
+-   **Password:** `password123`
+
+---
+
+## 🎨 Palet Warna
+
+Aplikasi ini menggunakan palet warna kustom yang didefinisikan di `tailwind.config.js`:
+-   **Primary (Biru):** `#36A4E1` (`brand-blue`)
+-   **Accent (Oren):** `#F28F25` (`brand-orange`)
+-   **Success (Hijau):** `#74B848` (`brand-green`)
