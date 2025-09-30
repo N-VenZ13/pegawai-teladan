@@ -49,7 +49,7 @@ class VotingController extends Controller
     public function show(Assignment $assignment)
     {
         // Keamanan 1: Pastikan user yang mengakses adalah voter yang benar
-        if ($assignment->voter_id !== Auth::id()) {
+        if ($assignment->voter_id != Auth::id()) {
             abort(403, 'AKSI TIDAK DIIZINKAN');
         }
 

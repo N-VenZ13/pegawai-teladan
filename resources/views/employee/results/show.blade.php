@@ -94,10 +94,10 @@
                         <div class="text-center p-4 border rounded-lg">
                             <h4 class="font-semibold mb-3">Pegawai Teladan</h4>
                             @if($period->sk_pegawai_path)
-                            <a href="{{ Storage::url($period->sk_pegawai_path) }}" target="_blank" class="inline-flex items-center ... bg-gray-800 text-white ... mb-2">Unduh SK Pegawai</a>
+                            <a href="{{ Storage::url($period->sk_pegawai_path) }}" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 mb-2 rounded-lg bg-gray-800 text-white text-sm font-medium hover:bg-gray-700 transition duration-200">SK Pegawai</a>
                             @endif
                             @if($period->sertifikat_pegawai_path)
-                            <a href="{{ Storage::url($period->sertifikat_pegawai_path) }}" target="_blank" class="inline-flex items-center ... bg-gray-800 text-white ...">Unduh Sertifikat Pegawai</a>
+                            <a href="{{ Storage::url($period->sertifikat_pegawai_path) }}" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 transition duration-200">Sertifikat Pegawai</a>
                             @endif
                             @if(!$period->sk_pegawai_path && !$period->sertifikat_pegawai_path)
                             <p class="text-sm text-gray-500">Dokumen belum tersedia.</p>
@@ -107,10 +107,10 @@
                         <div class="text-center p-4 border rounded-lg">
                             <h4 class="font-semibold mb-3">Ketua Tim Teladan</h4>
                             @if($period->sk_ketua_tim_path)
-                            <a href="{{ Storage::url($period->sk_ketua_tim_path) }}" target="_blank" class="inline-flex items-center ... bg-gray-800 text-white ... mb-2">Unduh SK Ketua Tim</a>
+                            <a href="{{ Storage::url($period->sk_ketua_tim_path) }}" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 mb-2 rounded-lg bg-gray-800 text-white text-sm font-medium hover:bg-gray-700 transition duration-200">SK Ketua Tim</a>
                             @endif
                             @if($period->sertifikat_ketua_tim_path)
-                            <a href="{{ Storage::url($period->sertifikat_ketua_tim_path) }}" target="_blank" class="inline-flex items-center ... bg-gray-800 text-white ...">Unduh Sertifikat Ketua Tim</a>
+                            <a href="{{ Storage::url($period->sertifikat_ketua_tim_path) }}" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 transition duration-200">Sertifikat Ketua Tim</a>
                             @endif
                             @if(!$period->sk_ketua_tim_path && !$period->sertifikat_ketua_tim_path)
                             <p class="text-sm text-gray-500">Dokumen belum tersedia.</p>
