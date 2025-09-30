@@ -31,7 +31,7 @@
                             <thead class="bg-gray-200">
                                 <tr>
                                     <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Nama</th>
-                                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Email</th>
+                                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Username</th>
                                     <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">NIP</th>
                                     <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Role</th>
                                     <th class="py-3 px-4 uppercase font-semibold text-sm">Aksi</th>
@@ -41,7 +41,7 @@
                                 @forelse ($users as $user)
                                 <tr>
                                     <td class="py-3 px-4">{{ $user->name }}</td>
-                                    <td class="py-3 px-4">{{ $user->email }}</td>
+                                    <td class="py-3 px-4">{{ $user->username }}</td>
                                     <td class="py-3 px-4">{{ $user->nip ?? '-' }}</td>
                                     <td class="py-3 px-4">
                                         @if (!empty($user->getRoleNames()))

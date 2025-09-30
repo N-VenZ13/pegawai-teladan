@@ -5,11 +5,17 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- Email Address -->
-        <div>
+        <!-- Email Address diubah jadi username-->
+        <!-- <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full text-gray-800" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div> -->
+
+        <div>
+            <label for="username" class="block font-medium text-sm text-white">{{ __('Username') }}</label>
+            <x-text-input id="username" class="block mt-1 w-full text-gray-800" type="text" name="username" :value="old('username')" required autofocus />
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
         </div>
 
         <!-- Password -->

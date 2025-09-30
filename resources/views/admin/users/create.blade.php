@@ -35,8 +35,8 @@
 
                             <!-- Email -->
                             <div>
-                                <label for="email" class="block font-medium text-sm text-gray-700">Email</label>
-                                <input type="email" name="email" id="email" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                <label for="username" class="block font-medium text-sm text-gray-700">Username</label>
+                                <input type="text" name="username" id="username" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                             </div>
 
                             <!-- NIP -->

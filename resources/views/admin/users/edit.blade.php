@@ -34,10 +34,10 @@
                                 <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 ..." required>
                             </div>
 
-                            <!-- Email -->
+                            <!-- Username -->
                             <div>
-                                <label for="email" class="block font-medium text-sm text-gray-700">Email</label>
-                                <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 ..." required>
+                                <label for="username" class="block font-medium text-sm text-gray-700">Username</label>
+                                <input type="text" name="username" id="username" value="{{ old('username', $user->username) }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 ..." required>
                             </div>
 
                             <!-- NIP -->

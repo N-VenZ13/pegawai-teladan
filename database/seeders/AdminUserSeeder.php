@@ -18,6 +18,7 @@ class AdminUserSeeder extends Seeder
         // Buat user baru
         $adminUser = User::create([
             'name' => 'Admin Utama',
+            'username' => 'admin', // Tambahkan username
             'email' => 'admin@perusahaan.com',
             'password' => Hash::make('password123'), // Ganti dengan password yang aman
         ]);

@@ -36,7 +36,8 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'username' => 'required|string|max:255|unique:users', // error ga ya kalo ada email
+            'email' => 'nullable|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'nip' => 'nullable|string|max:20|unique:users',
             'jabatan' => 'nullable|string|max:255',
@@ -45,6 +46,7 @@ class UserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'nip' => $request->nip,
             'jabatan' => $request->jabatan,
@@ -81,7 +83,8 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
             'nip' => 'nullable|string|max:20|unique:users,nip,' . $user->id,
             'jabatan' => 'nullable|string|max:255',
@@ -94,6 +97,8 @@ class UserController extends Controller
         }
 
         $input['is_ketua_tim'] = $request->has('is_ketua_tim');
+
+        $input['username'] = $request->username;
 
         $user->update($input);
         $user->syncRoles($request->role);

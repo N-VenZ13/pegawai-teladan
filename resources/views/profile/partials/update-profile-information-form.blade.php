@@ -43,7 +43,7 @@
         </div>
 
         <!-- Email -->
-        <div>
+        <!-- <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -65,7 +65,25 @@
                 @endif
             </div>
             @endif
+        </div> -->
+
+        <!-- Username -->
+        <div>
+            <x-input-label for="username" :value="__('Username')" />
+            <x-text-input id="username" name="username" type="text" class="mt-1 block w-full" :value="old('username', $user->username)" required autocomplete="username" />
+            <x-input-error class="mt-2" :messages="$errors->get('username')" />
         </div>
+
+        <!-- Email (Sekarang Opsional, untuk reset password) -->
+        <div>
+            <x-input-label for="email">
+                <span>{{ __('Email') }}</span>
+                
+            </x-input-label>
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" />
+            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+        </div>
+
 
         <!-- NIP -->
         <div>

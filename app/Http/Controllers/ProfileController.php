@@ -33,7 +33,7 @@ class ProfileController extends Controller
         $user->fill($request->validated());
 
         // Jika email diubah, reset verifikasi email
-        if ($user->isDirty('email')) {
+        if ($user->isDirty('email') && !empty($user->email)) {
             $user->email_verified_at = null;
         }
 
@@ -54,7 +54,7 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    
+
 
     /**
      * Delete the user's account.
