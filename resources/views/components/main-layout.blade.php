@@ -17,7 +17,7 @@
             <div class="h-full px-3 py-4 overflow-y-auto bg-white shadow-lg">
                 <a href="{{ route('dashboard') }}" class="flex items-center ps-2.5 mb-5">
                     <img src="{{ asset('images/logo.png') }}" class="h-8 me-3" alt="Logo Perusahaan" />
-                    <span class="self-center text-xl font-semibold whitespace-nowrap">Penilaian</span>
+                    <span class="self-center text-xl font-semibold whitespace-nowrap">SIPATEN</span>
                 </a>
                 @include('layouts.partials.sidebar-nav')
             </div>

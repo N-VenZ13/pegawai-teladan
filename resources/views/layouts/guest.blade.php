@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'SIPEKA') }}</title>
+    <title>{{ config('app.name', 'SIPATEN') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -20,7 +20,7 @@
             </a>
             <h1 class="mt-4 text-3xl font-semibold text-gray-800 tracking-tight">
                 <!-- {{ config('Sistem Penilaian Kinerja Pegawai') }} -->
-                Sistem Penilaian Kinerja Pegawai
+                Sistem Penilaian Pegawai Teladan
             </h1>
         
         </div>
