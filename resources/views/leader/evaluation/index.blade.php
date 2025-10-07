@@ -35,16 +35,16 @@
                                 <table class="w-full table-fixed">
                                     <thead class="bg-gray-50 border-b">
                                         <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Nama Pegawai</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
                                             @foreach($criteriaForPegawai as $criterion)
-                                            <th class="px-4 py-3 text-center text-xs font-medium text-gray-500">{{ $criterion->name }}</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm text-center">{{ $criterion->name }}</th>
                                             @endforeach
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         @forelse($users->where('is_ketua_tim', false) as $user)
                                         <tr class="hover:bg-gray-50">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
+                                            <td class="py-3 px-4 font-medium @if(!$loop->last) border-r @endif">{{ $user->name }}</td>
                                             @foreach($criteriaForPegawai as $criterion)
                                             <td class="px-6 py-4">
                                                 <input type="" name="scores[{{ $user->id }}][{{ $criterion->id }}]" value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}" class="w-full text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" min="0" max="100">
@@ -70,16 +70,16 @@
                                 <table class="w-full table-fixed">
                                     <thead class="bg-gray-50 border-b">
                                         <tr>
-                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500">Nama Ketua Tim</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Ketua Tim</th>
                                             @foreach($criteriaForKetuaTim as $criterion)
-                                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500">{{ $criterion->name }}</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm text-center">{{ $criterion->name }}</th>
                                             @endforeach
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         @forelse($users->where('is_ketua_tim', true) as $user)
                                         <tr class="hover:bg-gray-50">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
+                                            <td class="py-3 px-4 font-medium @if(!$loop->last) border-r @endif">{{ $user->name }}</td>
                                             @foreach($criteriaForKetuaTim as $criterion)
                                             <td class="px-6 py-4">
                                                 <input type="" name="scores[{{ $user->id }}][{{ $criterion->id }}]" value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}" class="w-full text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" min="0" max="100">

@@ -65,22 +65,49 @@
                 <div class="p-6 md:p-8 text-gray-900">
                     <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">🏆 Peringkat Ketua Tim Teladan 🏆</h3>
 
-                    @if($recapKetuaTim->count() >= 1)
+                    <!-- UBAH KONDISI MENJADI >= 3 -->
+                    @if($recapKetuaTim->count() >= 3)
                     @php
-                    $juaraKt1 = $recapKetuaTim->first();
+                    // GANTI NAMA VARIABEL AGAR TIDAK BENTROK
+                    $juaraKt1 = $recapKetuaTim->get(0);
+                    $juaraKt2 = $recapKetuaTim->get(1);
+                    $juaraKt3 = $recapKetuaTim->get(2);
                     @endphp
 
-                    <!-- Tampilan Juara 1 Ketua Tim -->
-                    <div class="w-full md:w-1/2 mx-auto text-center">
-                        <img src="{{ $juaraKt1['user']->profile_photo_path ? Storage::url($juaraKt1['user']->profile_photo_path) : asset('images/default-avatar.png') }}" class="w-40 h-40 mx-auto rounded-full object-cover border-4 border-yellow-400">
-                        <h4 class="mt-4 font-bold text-xl text-yellow-600">{{ $juaraKt1['user']->name }} 👑</h4>
-                        <div class="bg-yellow-400 text-white p-6 rounded-lg mt-2 flex flex-col justify-center">
-                            <span class="text-2xl font-semibold">Juara 1</span>
-                            <span class="text-5xl font-bold">{{ $juaraKt1['final_score'] }} Poin</span>
+                    <!-- SALIN STRUKTUR PODIUM DARI ATAS -->
+                    <div class="flex items-end justify-center gap-4 md:gap-8 text-center">
+                        <!-- Juara 2 -->
+                        <div class="w-1/3">
+                            <img src="{{ $juaraKt2['user']->profile_photo_path ? Storage::url($juaraKt2['user']->profile_photo_path) : asset('images/default-avatar.png') }}" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full object-cover border-4 border-gray-300">
+                            <h4 class="mt-4 font-bold text-lg text-gray-800">{{ $juaraKt2['user']->name }}</h4>
+                            <div class="bg-gray-300 text-gray-800 p-4 md:p-6 rounded-t-lg mt-2 h-24 md:h-32 flex flex-col justify-center">
+                                <span class="text-4xl md:text-5xl font-bold">2</span>
+                                <span class="font-semibold">{{ $juaraKt2['final_score'] }} Poin</span>
+                            </div>
+                        </div>
+
+                        <!-- Juara 1 -->
+                        <div class="w-1/3">
+                            <img src="{{ $juaraKt1['user']->profile_photo_path ? Storage::url($juaraKt1['user']->profile_photo_path) : asset('images/default-avatar.png') }}" class="w-28 h-28 md:w-40 md:h-40 mx-auto rounded-full object-cover border-4 border-yellow-400">
+                            <h4 class="mt-4 font-bold text-xl text-yellow-600">{{ $juaraKt1['user']->name }} 👑</h4>
+                            <div class="bg-yellow-400 text-white p-4 md:p-6 rounded-t-lg mt-2 h-32 md:h-48 flex flex-col justify-center">
+                                <span class="text-5xl md:text-6xl font-bold">1</span>
+                                <span class="font-semibold">{{ $juaraKt1['final_score'] }} Poin</span>
+                            </div>
+                        </div>
+
+                        <!-- Juara 3 -->
+                        <div class="w-1/3">
+                            <img src="{{ $juaraKt3['user']->profile_photo_path ? Storage::url($juaraKt3['user']->profile_photo_path) : asset('images/default-avatar.png') }}" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full object-cover border-4 border-yellow-600">
+                            <h4 class="mt-4 font-bold text-lg text-gray-800">{{ $juaraKt3['user']->name }}</h4>
+                            <div class="bg-yellow-600 text-white p-4 md:p-6 rounded-t-lg mt-2 h-20 md:h-24 flex flex-col justify-center">
+                                <span class="text-3xl md:text-4xl font-bold">3</span>
+                                <span class="font-semibold">{{ $juaraKt3['final_score'] }} Poin</span>
+                            </div>
                         </div>
                     </div>
                     @else
-                    <p class="text-center text-gray-500 py-10">Data tidak cukup untuk menampilkan peringkat Ketua Tim.</p>
+                    <p class="text-center text-gray-500 py-10">Data tidak cukup untuk menampilkan peringkat 3 besar Ketua Tim.</p>
                     @endif
                 </div>
             </div>

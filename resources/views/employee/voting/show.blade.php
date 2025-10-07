@@ -39,7 +39,8 @@
                                 <label for="score_{{ $question->id }}" class="block font-medium text-gray-700">
                                     {{ $index + 1 }}. {{ $question->text }}
                                 </label>
-                                <div class="mt-3 flex space-x-2">
+                                <!-- sebelumnya mt-3 flex space-x-2 -->
+                                <div class="mt-3 flex-wrap gap-2">  
                                     @for($i = 1; $i <= 10; $i++)
                                         <div class="flex items-center">
                                         <input type="radio"

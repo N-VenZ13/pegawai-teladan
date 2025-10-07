@@ -72,7 +72,7 @@ class VotingController extends Controller
     public function store(Request $request, Assignment $assignment)
     {
         // Keamanan (sama seperti di method show)
-        if ($assignment->voter_id !== Auth::id() || $assignment->status === 'completed') {
+        if ((int)$assignment->voter_id !== (int)Auth::id() || $assignment->status === 'completed') {
             abort(403);
         }
 
