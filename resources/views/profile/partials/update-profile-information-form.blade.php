@@ -25,12 +25,11 @@
                 <img class="h-24 w-24 rounded-full object-cover" src="{{ $user->profile_photo_path ? Storage::url($user->profile_photo_path) : asset('images/logo.png') }}" alt="Current profile photo">
 
                 <!-- Tombol Upload -->
-                <input id="photo" name="photo" type="file" class="block w-full text-sm text-gray-500
-                    file:me-4 file:py-2 file:px-4
-                    file:rounded-lg file:border-0
-                    file:text-sm file:font-semibold
-                    file:bg-blue-50 file:text-blue-700
-                    hover:file:bg-blue-100" />
+                <input id="photo" name="photo" type="file" class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg 
+               cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+               file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
+               file:text-sm file:font-medium file:bg-blue-600 file:text-white 
+               hover:file:bg-blue-700 transition" />
             </div>
             <x-input-error class="mt-2" :messages="$errors->get('photo')" />
         </div>
@@ -78,7 +77,7 @@
         <div>
             <x-input-label for="email">
                 <span>{{ __('Email') }}</span>
-                
+
             </x-input-label>
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />

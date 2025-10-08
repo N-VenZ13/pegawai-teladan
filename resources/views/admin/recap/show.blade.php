@@ -61,10 +61,10 @@
                                     <tr>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Peringkat</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Rekan (10%)</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Kepala BPS (40%)</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai SKP (30%)</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Disiplin (20%)</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Rekan (30%)</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Kepala BPS (30%)</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai SKP (10%)</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Disiplin (30%)</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center bg-gray-300">Nilai Akhir</th>
                                     </tr>
                                 </thead>
@@ -95,10 +95,10 @@
                                     <tr>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Peringkat</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Ketua Tim</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Rekan (10%)</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Kepala BPS (40%)</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai SKP (30%)</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Disiplin (20%)</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Rekan (30%)</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Kepala BPS (30%)</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai SKP (10%)</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Disiplin (30%)</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center bg-gray-300">Nilai Akhir</th>
                                     </tr>
                                 </thead>
@@ -182,7 +182,7 @@
                                     </div>
                                 </div>
                                 <div class="flex justify-end mt-4">
-                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-brand-blue ...">Unggah File</button>
+                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-brand-blue rounded-md text-sm font-semibold">Unggah File</button>
                                 </div>
                             </form>
                         </div>

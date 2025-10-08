@@ -46,28 +46,82 @@ class RecapController extends Controller
             $users = User::role(['Pegawai', 'Kepala BPS'])->orderBy('name')->get();
         }
 
+        // $peerScores = DB::table('assignments')
+        //     ->join('answers', 'assignments.id', '=', 'answers.assignment_id')
+        //     ->where('assignments.period_id', $period->id)
+        //     ->groupBy('assignments.target_id')
+        //     ->select('assignments.target_id as user_id', DB::raw('AVG(answers.score) as average_score'))
+        //     ->pluck('average_score', 'user_id');
+
+        // $leaderScores = LeaderAnswer::where('period_id', $period->id)
+        //     ->groupBy('target_id')
+        //     ->select('target_id as user_id', DB::raw('SUM(score) as total_score'))
+        //     ->pluck('total_score', 'user_id');
+
+        // $skpScores = $period->skpScores()->get()->mapWithKeys(function ($item) {
+        //     $avg = ($item->month_1_score + $item->month_2_score + $item->month_3_score) / 3;
+        //     return [$item->user_id => $avg];
+        // });
+
+        // $disciplineScores = DisciplineScore::where('period_id', $period->id)
+        //     ->groupBy('user_id')
+        //     ->select('user_id', DB::raw('SUM(score) as total_score'))
+        //     ->pluck('total_score', 'user_id');
+
+        // $results = [];
+        // foreach ($users as $user) {
+        //     $peerScore = $peerScores->get($user->id, 0);
+        //     $leaderScore = $leaderScores->get($user->id, 0);
+        //     $skpScore = $skpScores->get($user->id, 0);
+        //     $disciplineScore = $disciplineScores->get($user->id, 0);
+
+        //     $finalScore =
+        //         (($peerScore * 10) * 0.10) +
+        //         ($leaderScore * 0.40) +
+        //         ($skpScore * 0.30) +
+        //         ($disciplineScore * 0.20);
+
+        //     $results[] = [
+        //         'user' => $user,
+        //         'peer_score' => round($peerScore, 2),
+        //         'leader_score' => $leaderScore,
+        //         'skp_score' => round($skpScore, 2),
+        //         'discipline_score' => $disciplineScore,
+        //         'final_score' => round($finalScore, 2),
+        //     ];
+        // }
+
+        // $sortedResults = collect($results)->sortByDesc('final_score');
+        // return $sortedResults->values();
+
+        // versi sesuai instansi
+        // 1. Ambil TOTAL Nilai Voting Rekan Kerja
         $peerScores = DB::table('assignments')
             ->join('answers', 'assignments.id', '=', 'answers.assignment_id')
             ->where('assignments.period_id', $period->id)
             ->groupBy('assignments.target_id')
-            ->select('assignments.target_id as user_id', DB::raw('AVG(answers.score) as average_score'))
-            ->pluck('average_score', 'user_id');
+            ->select('assignments.target_id as user_id', DB::raw('SUM(answers.score) as total_score'))
+            ->pluck('total_score', 'user_id');
 
+        // 2. Ambil TOTAL Nilai Kriteria dari Pimpinan (sudah benar)
         $leaderScores = LeaderAnswer::where('period_id', $period->id)
             ->groupBy('target_id')
             ->select('target_id as user_id', DB::raw('SUM(score) as total_score'))
             ->pluck('total_score', 'user_id');
 
+        // 3. Ambil TOTAL Nilai SKP Bulanan
         $skpScores = $period->skpScores()->get()->mapWithKeys(function ($item) {
-            $avg = ($item->month_1_score + $item->month_2_score + $item->month_3_score) / 3;
-            return [$item->user_id => $avg];
+            $total = $item->month_1_score + $item->month_2_score + $item->month_3_score;
+            return [$item->user_id => $total];
         });
 
+        // 4. Ambil TOTAL Nilai Kriteria Disiplin (sudah benar)
         $disciplineScores = DisciplineScore::where('period_id', $period->id)
             ->groupBy('user_id')
             ->select('user_id', DB::raw('SUM(score) as total_score'))
             ->pluck('total_score', 'user_id');
 
+        // 5. Proses Kalkulasi dengan Formula Skor Absolut
         $results = [];
         foreach ($users as $user) {
             $peerScore = $peerScores->get($user->id, 0);
@@ -75,19 +129,26 @@ class RecapController extends Controller
             $skpScore = $skpScores->get($user->id, 0);
             $disciplineScore = $disciplineScores->get($user->id, 0);
 
+            // --- FORMULA PERHITUNGAN BERDASARKAN SKOR TOTAL (SESUAIKAN BOBOT!) ---
+            // Ini adalah tempat Anda mengubah bobot
+            $bobot_peer = 0.30;       // 30%
+            $bobot_leader = 0.30;     // 30%
+            $bobot_skp = 0.10;        // 10%
+            $bobot_discipline = 0.30; // 20%
+
             $finalScore =
-                (($peerScore * 10) * 0.10) +
-                ($leaderScore * 0.40) +
-                ($skpScore * 0.30) +
-                ($disciplineScore * 0.20);
+                ($peerScore * $bobot_peer) +
+                ($leaderScore * $bobot_leader) +
+                ($skpScore * $bobot_skp) +
+                ($disciplineScore * $bobot_discipline);
 
             $results[] = [
                 'user' => $user,
-                'peer_score' => round($peerScore, 2),
+                'peer_score' => $peerScore,
                 'leader_score' => $leaderScore,
-                'skp_score' => round($skpScore, 2),
+                'skp_score' => $skpScore,
                 'discipline_score' => $disciplineScore,
-                'final_score' => round($finalScore, 2),
+                'final_score' => round($finalScore, 2), // Skor akhir akan besar
             ];
         }
 
