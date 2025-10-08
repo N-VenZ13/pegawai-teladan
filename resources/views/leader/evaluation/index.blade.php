@@ -30,12 +30,12 @@
                         <!--       TABEL UNTUK PEGAWAI BIASA       -->
                         <!-- ======================================= -->
                         <div class="mb-10">
-                            <h4 class="text-lg font-semibold mb-2 text-gray-700">Penilaian Pegawai</h4>
+                            <h4 class="text-lg font-semibold mb-2 text-gray-700">Penilaian Anggota Tim</h4>
                             <div class="overflow-x-auto border rounded-lg">
                                 <table class="w-full table-fixed">
                                     <thead class="bg-gray-50 border-b">
                                         <tr>
-                                            <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
+                                            <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Anggota Tim</th>
                                             @foreach($criteriaForPegawai as $criterion)
                                             <th class="py-3 px-4 uppercase font-semibold text-sm text-center">{{ $criterion->name }}</th>
                                             @endforeach
@@ -53,7 +53,7 @@
                                         </tr>
                                         @empty
                                         <tr>
-                                            <td colspan="{{ $criteriaForPegawai->count() + 1 }}" class="text-center py-4 text-gray-500">Tidak ada data pegawai.</td>
+                                            <td colspan="{{ $criteriaForPegawai->count() + 1 }}" class="text-center py-4 text-gray-500">Tidak ada data Anggota Tim.</td>
                                         </tr>
                                         @endforelse
                                     </tbody>

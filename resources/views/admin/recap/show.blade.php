@@ -25,14 +25,14 @@
                         <div class="flex flex-wrap gap-3">
                             <!-- Laporan Detail -->
                             <a href="{{ route('recap.export.peer_to_peer', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
-                                Detail Peer-to-Peer (Pegawai)
+                                Detail Peer-to-Peer (Anggota Tim)
                             </a>
                             <a href="{{ route('recap.export.team_leader_peer', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
                                 Detail Peer-to-Peer (Ketua Tim)
                             </a>
                             <!-- Laporan Hasil Akhir -->
                             <a href="{{ route('recap.export.pegawai_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
-                                Rekap Akhir Pegawai Teladan
+                                Rekap Akhir Anggota Tim Teladan
                             </a>
                             <a href="{{ route('recap.export.ketua_tim_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
                                 Rekap Akhir Ketua Tim Teladan
@@ -45,7 +45,7 @@
                     <div class="mb-4 border-b border-gray-200">
                         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                             <li class="me-2" role="presentation">
-                                <button class="inline-block p-4 border-b-2 rounded-t-lg" id="pegawai-tab" data-tabs-target="#pegawai" type="button" role="tab" aria-controls="pegawai" aria-selected="true">Pegawai Teladan</button>
+                                <button class="inline-block p-4 border-b-2 rounded-t-lg" id="pegawai-tab" data-tabs-target="#pegawai" type="button" role="tab" aria-controls="pegawai" aria-selected="true">Anggota Tim Teladan</button>
                             </li>
                             <li class="me-2" role="presentation">
                                 <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="ketua-tim-tab" data-tabs-target="#ketua-tim" type="button" role="tab" aria-controls="ketua-tim" aria-selected="false">Ketua Tim Teladan</button>
@@ -55,12 +55,12 @@
                     <div id="myTabContent">
                         <!-- Konten Tab Pegawai Teladan -->
                         <div class="hidden p-4 rounded-lg bg-gray-50" id="pegawai" role="tabpanel" aria-labelledby="pegawai-tab">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4">Peringkat Pegawai Teladan</h3>
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Peringkat Anggota Tim Teladan</h3>
                             <table class="min-w-full bg-white border">
                                 <thead class="bg-gray-200">
                                     <tr>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Peringkat</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Anggota Tim</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Rekan (30%)</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Kepala BPS (30%)</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai SKP (10%)</th>
@@ -81,7 +81,7 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="7" class="text-center py-6">Data penilaian pegawai belum tersedia atau belum lengkap.</td>
+                                        <td colspan="7" class="text-center py-6">Data penilaian anggota tim belum tersedia atau belum lengkap.</td>
                                     </tr>
                                     @endforelse
                                 </tbody>
@@ -146,16 +146,16 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <!-- Kolom Pegawai -->
                                     <div class="space-y-4 p-4 border rounded-lg">
-                                        <h5 class="font-semibold">Dokumen Pegawai Teladan</h5>
+                                        <h5 class="font-semibold">Dokumen Anggota Tim Teladan</h5>
                                         <div>
-                                            <label for="sk_pegawai" class="block text-sm font-medium text-gray-700">File SK Pegawai (PDF)</label>
+                                            <label for="sk_pegawai" class="block text-sm font-medium text-gray-700">File SK Anggota Tim (PDF)</label>
                                             <input type="file" name="sk_pegawai" id="sk_pegawai" class="mt-1 block w-full text-sm ...">
                                             @if($period->sk_pegawai_path)
                                             <p class="text-sm text-green-600 mt-2">Terunggah: <a href="{{ Storage::url($period->sk_pegawai_path) }}" target="_blank" class="underline">Lihat/Unduh</a></p>
                                             @endif
                                         </div>
                                         <div>
-                                            <label for="sertifikat_pegawai" class="block text-sm font-medium text-gray-700">Sertifikat Pegawai (PDF/JPG)</label>
+                                            <label for="sertifikat_pegawai" class="block text-sm font-medium text-gray-700">Sertifikat Anggota Tim (PDF/JPG)</label>
                                             <input type="file" name="sertifikat_pegawai" id="sertifikat_pegawai" class="mt-1 block w-full text-sm ...">
                                             @if($period->sertifikat_pegawai_path)
                                             <p class="text-sm text-green-600 mt-2">Terunggah: <a href="{{ Storage::url($period->sertifikat_pegawai_path) }}" target="_blank" class="underline">Lihat/Unduh</a></p>

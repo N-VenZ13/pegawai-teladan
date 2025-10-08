@@ -12,7 +12,7 @@
             <!-- Blok Penilaian Pegawai -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900">
-                    <h3 class="text-lg font-medium mb-4">Perlu Dinilai: Rekan Pegawai ({{ $pendingPegawai->count() }})</h3>
+                    <h3 class="text-lg font-medium mb-4">Perlu Dinilai: Rekan Anggota Tim ({{ $pendingPegawai->count() }})</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         @forelse($pendingPegawai as $assignment)
                         <a href="{{ route('voting.show', $assignment->id) }}" class="...">
@@ -20,7 +20,7 @@
                             <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
                         </a>
                         @empty
-                        <p class="col-span-3">Tidak ada rekan pegawai yang perlu dinilai.</p>
+                        <p class="col-span-3">Tidak ada rekan Anggota Tim yang perlu dinilai.</p>
                         @endforelse
                     </div>
                 </div>
