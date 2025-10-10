@@ -2,60 +2,143 @@
 
 namespace App\Exports;
 
-use App\Http\Controllers\Admin\RecapController;
+use App\Models\DisciplineCriterion;
+use App\Models\DisciplineScore;
+use App\Models\LeaderAnswer;
+use App\Models\LeaderCriterion;
 use App\Models\Period;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Models\Question;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use \Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithMapping; // <-- Kita butuh ini untuk peringkat
 
-class PegawaiTeladanExport implements FromCollection, WithHeadings, WithMapping, WithTitle
+class PegawaiTeladanExport implements FromArray, WithHeadings, WithTitle, ShouldAutoSize, WithMapping
 {
-     
-
     protected $period;
-    protected $recapData;
+    protected $peerQuestions, $disciplineCriteria, $leaderCriteria;
 
     public function __construct(Period $period)
     {
         $this->period = $period;
-        // Panggil logika kalkulasi DENGAN PARAMETER 'pegawai'
-        $recapController = new RecapController();
-        $this->recapData = $recapController->calculateRecap($period, 'pegawai');
+        $this->peerQuestions = Question::where('type', 'pegawai')->where('is_active', true)->orderBy('id')->get();
+        $this->disciplineCriteria = DisciplineCriterion::where('is_active', true)->orderBy('id')->get();
+        $this->leaderCriteria = LeaderCriterion::whereIn('target_type', ['pegawai', 'semua'])->where('is_active', true)->orderBy('id')->get();
     }
 
-    public function collection()
+    public function array(): array
     {
-        return $this->recapData;
+        $targets = User::role('Pegawai')->where('is_ketua_tim', false)->orderBy('name')->get();
+
+        // Ambil semua data skor mentah
+        $peerScores = DB::table('assignments')->join('answers', 'assignments.id', '=', 'answers.assignment_id')
+            ->where('assignments.period_id', $this->period->id)
+            ->groupBy('assignments.target_id', 'answers.question_id')
+            ->select('assignments.target_id', 'answers.question_id', DB::raw('SUM(answers.score) as total_score')) // Gunakan SUM per pertanyaan
+            ->get()->groupBy('target_id');
+
+        $disciplineScores = DisciplineScore::where('period_id', $this->period->id)->get()->groupBy('user_id');
+        $leaderScores = LeaderAnswer::where('period_id', $this->period->id)->get()->groupBy('target_id');
+        $skpScores = $this->period->skpScores()->get()->keyBy('user_id');
+
+        // Bangun array data
+        $data = [];
+        foreach ($targets as $target) {
+            $rowData = ['user' => $target]; // Simpan objek user untuk nama
+            
+            // Kumpulkan semua skor mentah untuk user ini
+            $rowData['peer_scores'] = $peerScores->get($target->id, collect())->keyBy('question_id');
+            $rowData['discipline_scores'] = $disciplineScores->get($target->id, collect())->keyBy('discipline_criterion_id');
+            $rowData['leader_scores'] = $leaderScores->get($target->id, collect())->keyBy('leader_criterion_id');
+            $rowData['skp_scores'] = $skpScores->get($target->id);
+
+            // Hitung total untuk setiap komponen
+            $totalPeer = $rowData['peer_scores']->sum('total_score');
+            $totalLeader = $rowData['leader_scores']->sum('score');
+            $totalDiscipline = $rowData['discipline_scores']->sum('score');
+            $totalSkp = ($rowData['skp_scores']->month_1_score ?? 0) + ($rowData['skp_scores']->month_2_score ?? 0) + ($rowData['skp_scores']->month_3_score ?? 0);
+            
+            // Hitung skor akhir dengan formula yang sama persis
+            $bobot_peer = 0.30; $bobot_leader = 0.30; $bobot_skp = 0.10; $bobot_discipline = 0.30;
+            $finalScore = 
+                ($totalPeer * $bobot_peer) +
+                ($totalLeader * $bobot_leader) +
+                ($totalSkp * $bobot_skp) +
+                ($totalDiscipline * $bobot_discipline);
+
+            $rowData['final_score'] = round($finalScore, 2);
+
+            $data[] = $rowData;
+        }
+
+        // Urutkan berdasarkan skor akhir
+        usort($data, fn($a, $b) => $b['final_score'] <=> $a['final_score']);
+
+        return $data;
     }
 
     public function headings(): array
     {
-        return ['Peringkat', 'Nama', 'Jabatan', 'Nilai Rekan', 'Nilai Pimpinan', 'Nilai SKP', 'Nilai Disiplin', 'NILAI AKHIR'];
+        $headings = ['Peringkat', 'Nama Pegawai'];
+        foreach ($this->peerQuestions as $q) { $headings[] = $q->text; }
+        $headings[] = 'Total Rekan';
+        foreach ($this->disciplineCriteria as $c) { $headings[] = $c->name; }
+        $headings[] = 'Total Disiplin';
+        foreach ($this->leaderCriteria as $c) { $headings[] = $c->name; }
+        $headings[] = 'Total Kepala BPS';
+        $headings[] = 'SKP Bulan 1'; $headings[] = 'SKP Bulan 2'; $headings[] = 'SKP Bulan 3';
+        $headings[] = 'Total SKP';
+        $headings[] = 'NILAI AKHIR';
+        return $headings;
     }
-
-    // Method `map` untuk mengubah format setiap baris
+    
     public function map($row): array
     {
-        // Peringkat akan kita tambahkan secara manual karena collection sudah diurutkan
         static $rank = 0;
         $rank++;
+        
+        $mappedRow = [$rank, $row['user']->name];
+        
+        $totalPeer = 0;
+        foreach ($this->peerQuestions as $q) {
+            $score = $row['peer_scores']->get($q->id)->total_score ?? 0;
+            $mappedRow[] = $score;
+            $totalPeer += $score;
+        }
+        $mappedRow[] = $totalPeer;
 
-        return [
-            $rank,
-            $row['user']->name,
-            $row['user']->jabatan,
-            $row['peer_score'],
-            $row['leader_score'],
-            $row['skp_score'],
-            $row['discipline_score'],
-            $row['final_score'],
-        ];
+        $totalDiscipline = 0;
+        foreach ($this->disciplineCriteria as $c) {
+            $score = $row['discipline_scores']->get($c->id)->score ?? 0;
+            $mappedRow[] = $score;
+            $totalDiscipline += $score;
+        }
+        $mappedRow[] = $totalDiscipline;
+
+        $totalLeader = 0;
+        foreach ($this->leaderCriteria as $c) {
+            $score = $row['leader_scores']->get($c->id)->score ?? 0;
+            $mappedRow[] = $score;
+            $totalLeader += $score;
+        }
+        $mappedRow[] = $totalLeader;
+        
+        $totalSkp = ($row['skp_scores']->month_1_score ?? 0) + ($row['skp_scores']->month_2_score ?? 0) + ($row['skp_scores']->month_3_score ?? 0);
+        $mappedRow[] = $row['skp_scores']->month_1_score ?? 0;
+        $mappedRow[] = $row['skp_scores']->month_2_score ?? 0;
+        $mappedRow[] = $row['skp_scores']->month_3_score ?? 0;
+        $mappedRow[] = $totalSkp;
+        
+        $mappedRow[] = $row['final_score'];
+
+        return $mappedRow;
     }
 
     public function title(): string
     {
-        return 'Rekapitulasi Pegawai Teladan';
+        return 'Laporan Master Pegawai Teladan';
     }
 }

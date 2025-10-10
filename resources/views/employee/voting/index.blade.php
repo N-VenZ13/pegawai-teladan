@@ -15,8 +15,10 @@
                     <h3 class="text-lg font-medium mb-4">Perlu Dinilai: Rekan Anggota Tim ({{ $pendingPegawai->count() }})</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         @forelse($pendingPegawai as $assignment)
-                        <a href="{{ route('voting.show', $assignment->id) }}" class="...">
-                            <p class="font-semibold">{{ $assignment->target->name }}</p>
+                        <a href="{{ route('voting.show', $assignment->id) }}" class="block p-4 bg-white rounded-lg border border-gray-200 shadow-sm 
+              hover:bg-blue-50 hover:border-brand-blue hover:shadow-md 
+              transition-all duration-200">
+                            <p class="font-semibold text-gray-800">{{ $assignment->target->name }}</p>
                             <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
                         </a>
                         @empty
@@ -32,8 +34,10 @@
                     <h3 class="text-lg font-medium mb-4">Perlu Dinilai: Ketua Tim ({{ $pendingKetuaTim->count() }})</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         @forelse($pendingKetuaTim as $assignment)
-                        <a href="{{ route('voting.show', $assignment->id) }}" class="...">
-                            <p class="font-semibold">{{ $assignment->target->name }}</p>
+                        <a href="{{ route('voting.show', $assignment->id) }}" class="block p-4 bg-white rounded-lg border border-gray-200 shadow-sm 
+              hover:bg-blue-50 hover:border-brand-blue hover:shadow-md 
+              transition-all duration-200">
+                            <p class="font-semibold text-gray-800">{{ $assignment->target->name }}</p>
                             <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
                         </a>
                         @empty

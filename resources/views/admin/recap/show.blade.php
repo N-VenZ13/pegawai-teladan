@@ -24,12 +24,12 @@
                         <h4 class="text-lg font-medium text-gray-800 mb-3">Unduh Laporan Excel</h4>
                         <div class="flex flex-wrap gap-3">
                             <!-- Laporan Detail -->
-                            <a href="{{ route('recap.export.peer_to_peer', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
+                            <!-- <a href="{{ route('recap.export.peer_to_peer', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
                                 Detail Peer-to-Peer (Anggota Tim)
                             </a>
                             <a href="{{ route('recap.export.team_leader_peer', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700">
                                 Detail Peer-to-Peer (Ketua Tim)
-                            </a>
+                            </a> -->
                             <!-- Laporan Hasil Akhir -->
                             <a href="{{ route('recap.export.pegawai_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
                                 Rekap Akhir Anggota Tim Teladan

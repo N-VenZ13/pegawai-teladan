@@ -30,7 +30,10 @@
                file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
                file:text-sm file:font-medium file:bg-blue-600 file:text-white 
                hover:file:bg-blue-700 transition" />
+               
             </div>
+            <!-- batas ukuran file -->
+                <div class="text-sm text-gray-500">Ukuran maksimum: 2MB. Format yang diperbolehkan: JPG, PNG.</div>
             <x-input-error class="mt-2" :messages="$errors->get('photo')" />
         </div>
 

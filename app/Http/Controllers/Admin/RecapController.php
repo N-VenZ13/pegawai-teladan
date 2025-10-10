@@ -240,13 +240,13 @@ class RecapController extends Controller
 
     public function exportPegawaiTeladan(Period $period)
     {
-        $fileName = 'Rekap_Pegawai_Teladan_' . Str::slug($period->name) . '.xlsx';
+        $fileName = 'Laporan_Anggota_Tim_Teladan_' . Str::slug($period->name) . '.xlsx';
         return Excel::download(new PegawaiTeladanExport($period), $fileName);
     }
 
     public function exportKetuaTimTeladan(Period $period)
     {
-        $fileName = 'Rekap_Ketua_Tim_Teladan_' . Str::slug($period->name) . '.xlsx';
+        $fileName = 'Laporan_Ketua_Tim_Teladan_' . Str::slug($period->name) . '.xlsx';
         return Excel::download(new KetuaTimTeladanExport($period), $fileName);
     }
 }
