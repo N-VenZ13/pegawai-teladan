@@ -81,6 +81,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/{assignment}', [VotingController::class, 'show'])->name('show');
         Route::post('/{assignment}', [VotingController::class, 'store'])->name('store');
     });
+
+    // --- RUTE UNTUK MONITORING (ADMIN & KEPALA BPS) ---
+    Route::prefix('monitoring')->name('monitoring.')->middleware(['role:Admin|Kepala BPS'])->group(function () {
+        Route::get('/{period}', [AssignmentController::class, 'monitoring'])->name('show');
+    });
 });
 
 require __DIR__ . '/auth.php';

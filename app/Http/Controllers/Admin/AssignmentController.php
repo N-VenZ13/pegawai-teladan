@@ -54,7 +54,43 @@ class AssignmentController extends Controller
 
         Assignment::insert($assignments);
 
-        return redirect()->route('admin.assignments.index', $period->id)
+        return redirect()->route('monitoring.show', $period->id)
             ->with('success', 'Tugas penilaian berhasil di-generate ulang!');
+    }
+
+    public function monitoring(Period $period)
+    {
+        // 1. Ambil semua user yang memiliki tugas untuk menilai (voter) di periode ini
+        $voterIds = $period->assignments()->select('voter_id')->distinct()->pluck('voter_id');
+        $voters = User::whereIn('id', $voterIds)->orderBy('name')->get();
+
+        // 2. Lakukan query untuk menghitung total tugas dan tugas yang selesai untuk setiap voter
+        $progressStats = $period->assignments()
+            ->select(
+                'voter_id',
+                DB::raw('COUNT(*) as total_assignments'),
+                DB::raw('SUM(CASE WHEN status = "completed" THEN 1 ELSE 0 END) as completed_assignments')
+            )
+            ->groupBy('voter_id')
+            ->get()
+            ->keyBy('voter_id'); // Jadikan voter_id sebagai key agar mudah diakses
+
+        // 3. Gabungkan data user dengan data progresnya
+        $monitoringData = $voters->map(function ($voter) use ($progressStats) {
+            $stats = $progressStats->get($voter->id);
+
+            $total = $stats ? $stats->total_assignments : 0;
+            $completed = $stats ? $stats->completed_assignments : 0;
+            $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
+
+            return (object) [
+                'user' => $voter,
+                'total' => $total,
+                'completed' => $completed,
+                'percentage' => $percentage,
+            ];
+        });
+
+        return view('admin.monitoring.show', compact('period', 'monitoringData'));
     }
 }

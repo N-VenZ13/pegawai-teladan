@@ -21,7 +21,7 @@
                 <h3 class="text-gray-500 text-sm font-medium uppercase tracking-wider">Total Kepala BPS</h3>
                 <p class="text-4xl font-bold text-brand-green mt-1">{{ $totalKepalaBps }}</p>
             </div>
-            <p class="text-xs text-gray-400 mt-4">Jumlah Kepala BPS/ketua tim</p>
+            <p class="text-xs text-gray-400 mt-4">Kepala BPS</p>
         </div>
         
         <!-- Widget Periode Aktif & Progres -->
@@ -65,6 +65,17 @@
                 </div>
                 <p class="font-semibold text-gray-700 group-hover:text-brand-blue transition-colors">Tambah Pegawai</p>
             </a>
+
+            @if($activePeriod)
+            <a href="{{ route('monitoring.show', $activePeriod->id) }}" class="group bg-white p-4 text-center rounded-xl shadow-md border border-gray-200 hover:border-brand-blue hover:shadow-lg transition-all duration-300">
+                <div class="flex justify-center mb-2">
+                    <svg class="w-8 h-8 text-gray-400 group-hover:text-brand-blue transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM21 21l-5.197-5.197" />
+                    </svg>
+                </div>
+                <p class="font-semibold text-gray-700 group-hover:text-brand-blue transition-colors">Lihat Progres Penilaian</p>
+            </a>
+            @endif
             
             <!-- Tambahkan shortcut lain di sini -->
 

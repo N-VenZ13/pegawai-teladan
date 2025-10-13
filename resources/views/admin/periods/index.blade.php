@@ -91,8 +91,12 @@
                                     </td>
                                 </tr>
                                 <td class="py-3 px-4 text-center">
-                                    <a href="{{ route('admin.assignments.index', $period->id) }}" class="text-blue-500 hover:underline">
+                                    <!-- <a href="{{ route('admin.assignments.index', $period->id) }}" class="text-blue-500 hover:underline">
                                         Lihat ({{ $period->assignments_count }})
+                                    </a> -->
+                                    <!-- yang terbaru ada bar progres -->
+                                    <a href="{{ route('monitoring.show', $period->id) }}" class="text-blue-500 hover:underline">
+                                        Lihat Progres ({{ $period->assignments_count }})
                                     </a>
                                 </td>
                                 @empty
