@@ -163,7 +163,7 @@ class RecapController extends Controller
         $user = Auth::user();
 
         // Hanya Pimpinan yang bisa publish
-        if (!$user || !$user->hasRole('Kepala BPS')) {
+        if (!$user || !$user->hasRole(['Admin', 'Kepala BPS'])) {
             abort(403, 'Hanya Pimpinan yang dapat mempublikasikan hasil.');
         }
 
@@ -178,7 +178,7 @@ class RecapController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        if (!$user || !$user->hasRole('Kepala BPS')) {
+        if (!$user || !$user->hasRole(['Admin', 'Kepala BPS'])) {
             abort(403);
         }
 
