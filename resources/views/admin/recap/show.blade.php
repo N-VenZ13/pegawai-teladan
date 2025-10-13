@@ -138,7 +138,7 @@
                             @endif
                         </div>
 
-                        @role('Kepala BPS')
+                        @role('Admin|Kepala BPS')
                         <div>
                             <h4 class="text-lg font-medium text-gray-800 mb-4">Unggah Dokumen Pendukung</h4>
                             <form action="{{ route('recap.upload_files', $period->id) }}" method="POST" enctype="multipart/form-data">
@@ -149,14 +149,22 @@
                                         <h5 class="font-semibold">Dokumen Anggota Tim Teladan</h5>
                                         <div>
                                             <label for="sk_pegawai" class="block text-sm font-medium text-gray-700">File SK Anggota Tim (PDF)</label>
-                                            <input type="file" name="sk_pegawai" id="sk_pegawai" class="mt-1 block w-full text-sm ...">
+                                            <input type="file" name="sk_pegawai" id="sk_pegawai" class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg 
+               cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+               file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
+               file:text-sm file:font-medium file:bg-blue-600 file:text-white 
+               hover:file:bg-blue-700 transition">
                                             @if($period->sk_pegawai_path)
                                             <p class="text-sm text-green-600 mt-2">Terunggah: <a href="{{ Storage::url($period->sk_pegawai_path) }}" target="_blank" class="underline">Lihat/Unduh</a></p>
                                             @endif
                                         </div>
                                         <div>
                                             <label for="sertifikat_pegawai" class="block text-sm font-medium text-gray-700">Sertifikat Anggota Tim (PDF/JPG)</label>
-                                            <input type="file" name="sertifikat_pegawai" id="sertifikat_pegawai" class="mt-1 block w-full text-sm ...">
+                                            <input type="file" name="sertifikat_pegawai" id="sertifikat_pegawai" class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg 
+               cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+               file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
+               file:text-sm file:font-medium file:bg-blue-600 file:text-white 
+               hover:file:bg-blue-700 transition">
                                             @if($period->sertifikat_pegawai_path)
                                             <p class="text-sm text-green-600 mt-2">Terunggah: <a href="{{ Storage::url($period->sertifikat_pegawai_path) }}" target="_blank" class="underline">Lihat/Unduh</a></p>
                                             @endif
@@ -167,14 +175,22 @@
                                         <h5 class="font-semibold">Dokumen Ketua Tim Teladan</h5>
                                         <div>
                                             <label for="sk_ketua_tim" class="block text-sm font-medium text-gray-700">File SK Ketua Tim (PDF)</label>
-                                            <input type="file" name="sk_ketua_tim" id="sk_ketua_tim" class="mt-1 block w-full text-sm ...">
+                                            <input type="file" name="sk_ketua_tim" id="sk_ketua_tim" class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg 
+               cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+               file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
+               file:text-sm file:font-medium file:bg-blue-600 file:text-white 
+               hover:file:bg-blue-700 transition">
                                             @if($period->sk_ketua_tim_path)
                                             <p class="text-sm text-green-600 mt-2">Terunggah: <a href="{{ Storage::url($period->sk_ketua_tim_path) }}" target="_blank" class="underline">Lihat/Unduh</a></p>
                                             @endif
                                         </div>
                                         <div>
                                             <label for="sertifikat_ketua_tim" class="block text-sm font-medium text-gray-700">Sertifikat Ketua Tim (PDF/JPG)</label>
-                                            <input type="file" name="sertifikat_ketua_tim" id="sertifikat_ketua_tim" class="mt-1 block w-full text-sm ...">
+                                            <input type="file" name="sertifikat_ketua_tim" id="sertifikat_ketua_tim" class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg 
+               cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+               file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
+               file:text-sm file:font-medium file:bg-blue-600 file:text-white 
+               hover:file:bg-blue-700 transition">
                                             @if($period->sertifikat_ketua_tim_path)
                                             <p class="text-sm text-green-600 mt-2">Terunggah: <a href="{{ Storage::url($period->sertifikat_ketua_tim_path) }}" target="_blank" class="underline">Lihat/Unduh</a></p>
                                             @endif
