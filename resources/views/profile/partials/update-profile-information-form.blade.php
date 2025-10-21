@@ -5,7 +5,7 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Perbarui informasi profil dan alamat email akun Anda.") }}
+            {{ __("Perbarui informasi profil dan data login akun Anda.") }}
         </p>
     </header>
 
@@ -17,23 +17,26 @@
         @csrf
         @method('patch')
 
-        <!-- Bagian Foto Profil -->
-        <div>
-            <x-input-label for="photo" :value="__('Foto Profil')" />
-            <div class="mt-2 flex items-center gap-x-3">
+        <!-- Bagian Foto Profil dengan Styling Baru -->
+        <div class="p-6 border rounded-lg bg-brand-blue/10 shadow-sm">
+            <label class="block text-sm font-medium text-gray-700 mb-4">{{ __('Foto Profil') }}</label>
+            <div class="flex items-center gap-x-6 ">
                 <!-- Foto Avatar Saat Ini -->
-                <img class="h-24 w-24 rounded-full object-cover" src="{{ $user->profile_photo_path ? Storage::url($user->profile_photo_path) : asset('images/logo.png') }}" alt="Current profile photo">
-
-                <!-- Tombol Upload -->
-                <input id="photo" name="photo" type="file" class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg 
-               cursor-pointer bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-               file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 
-               file:text-sm file:font-medium file:bg-blue-600 file:text-white 
-               hover:file:bg-blue-700 transition" />
-               
+                <img class="h-24 w-24 rounded-full object-cover ring-2 ring-white ring-offset-2 ring-offset-gray-100" 
+                     src="{{ $user->profile_photo_path ? Storage::url($user->profile_photo_path) : asset('images/default-avatar.png') }}" 
+                     alt="Current profile photo">
+                
+                <div class="flex-grow">
+                    <input id="photo" name="photo" type="file" 
+                           class="block w-full text-sm text-gray-500
+                                  file:me-4 file:py-2 file:px-4
+                                  file:rounded-lg file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-blue-50 file:text-brand-blue
+                                  hover:file:bg-blue-100 transition duration-150 bg-gray-200/50 rounded-md">
+                    <p class="text-xs text-gray-500 mt-2">Format: JPG, PNG. Maks: 2MB.</p>
+                </div>
             </div>
-            <!-- batas ukuran file -->
-                <div class="text-sm text-gray-500">Ukuran maksimum: 2MB. Format yang diperbolehkan: JPG, PNG.</div>
             <x-input-error class="mt-2" :messages="$errors->get('photo')" />
         </div>
 
@@ -44,48 +47,12 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
-        <!-- Email -->
-        <!-- <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
-
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-            <div>
-                <p class="text-sm mt-2 text-gray-800">
-                    {{ __('Your email address is unverified.') }}
-
-                    <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        {{ __('Click here to re-send the verification email.') }}
-                    </button>
-                </p>
-
-                @if (session('status') === 'verification-link-sent')
-                <p class="mt-2 font-medium text-sm text-green-600">
-                    {{ __('A new verification link has been sent to your email address.') }}
-                </p>
-                @endif
-            </div>
-            @endif
-        </div> -->
-
         <!-- Username -->
         <div>
             <x-input-label for="username" :value="__('Username')" />
             <x-text-input id="username" name="username" type="text" class="mt-1 block w-full" :value="old('username', $user->username)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('username')" />
         </div>
-
-        <!-- Email (Sekarang Opsional, untuk reset password) -->
-        <div>
-            <x-input-label for="email">
-                <span>{{ __('Email') }}</span>
-
-            </x-input-label>
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
-        </div>
-
 
         <!-- NIP -->
         <div>
@@ -103,7 +70,9 @@
 
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Simpan') }}</x-primary-button>
+            <button type="submit" class="inline-flex items-center px-4 py-2 bg-brand-blue border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
+                {{ __('Simpan Perubahan') }}
+            </button>
 
             @if (session('status') === 'profile-updated')
             <p

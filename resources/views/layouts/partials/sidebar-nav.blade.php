@@ -1,251 +1,140 @@
-<!-- resources/views/layouts/partials/sidebar-nav.blade.php -->
 <ul class="space-y-2 font-medium">
+
+    <!-- Dashboard (Semua Role) -->
     <li>
-        <a href="{{ route('dashboard') }}"
-            class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('dashboard') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('dashboard') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.026V10h8.975a1 1 0 0 0 1-.934A8.5 8.5 0 0 0 12.5 0Z" />
+        <a href="{{ route('dashboard') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('dashboard') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('dashboard') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
             </svg>
             <span class="ms-3">Dashboard</span>
         </a>
     </li>
 
-    <!-- MENU PEGAWAI & Kepala BPS -->
+    <!-- MENU PEGAWAI & KEPALA BPS -->
     @role('Pegawai|Kepala BPS')
     <li>
-        <a href="{{ route('voting.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon penilaian -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
+        <a href="{{ route('voting.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
             </svg>
             <span class="ms-3">Penilaian Saya</span>
         </a>
     </li>
     @endrole
 
-    @role('Admin')
-    <li>
-        <a href="{{ route('admin.users.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('admin.users.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            
-            <!-- tambahkan icon user -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('admin.users.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a5 5 0 1 1 0 10A5 5 0 0 1 10 0Zm0 12c-6.075 0-10 3.037-10 5.5V20h20v-2.5c0-2.463-3.925-5.5-10-5.5Z"/>
-            </svg>
-            <span class="ms-3">Manajemen User</span>
-        </a>
-    </li> 
-    <!-- terapkan style kemenu lainnya -->
-    <li>
-        <a href="{{ route('admin.periods.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('admin.periods.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon periode -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('admin.periods.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M17.5 3h-1V1.5a1.5 1.5 0 0 0-3 0V3h-8V1.5a1.5 1.5 0 0 0-3 0V3h-1A2.5 2.5 0 0 0 0 5.5v11A2.5 2.5 0 0 0 2.5 19h15a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 17.5 3ZM18 16.5a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-8h18v8Zm0-9h-18v-3A1.5 1.5 0 0 1 .5 3h1v1.5a1.5 1.5 0 0 0 3 0V3h8v1.5a1.5 1.5 0 0 0 3 0V3h1A1.5 1.5 0 0 1 18 .5v3Z"/>
-            </svg>
-            <span class="ms-3">Manajemen Periode</span>
-        </a>
-    </li>
-    <li>
-        <a href="{{ route('admin.questions.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('admin.questions.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon tanda tanya -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('admin.questions.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm1 15a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm2.07-7.75-.9.92A3.005 3.005 0 0 0 11 11H9a5.002 5.002 0 0 1 .93-3.25l1.2-1.22A2.01 2.01 0 1 0 11.07 7.25Z"/>
-            </svg>            
-            <span class="ms-3">Pertanyaan Pegawai</span>
-        </a>
-    </li>
-    <li>
-        <a href="{{ route('admin.leader-criteria.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('admin.leader-criteria.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon bintang -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('admin.leader-criteria.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
-            </svg>
-            <span class="ms-3">Kriteria Kepala BPS</span>
-        </a>
-    </li>
-    @endrole
-
-    <!-- MENU KHUSUS ADMIN -->
-    <!-- @role('Admin')
-    <li><a href="{{ route('admin.users.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.users.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Manajemen User</span></a></li>
-    <li><a href="{{ route('admin.periods.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.periods.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Manajemen Periode</span></a></li>
-    <li><a href="{{ route('admin.questions.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.questions.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Pertanyaan Pegawai</span></a></li>
-    <li><a href="{{ route('admin.leader-criteria.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('admin.leader-criteria.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Kriteria Kepala BPS</span></a></li>
-    @endrole -->
-
-    @role('Admin|Bagian Umum')
-    <li>
-        <a href="{{ route('discipline.criteria.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('discipline.criteria.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon disipline -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('discipline.criteria.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
-            </svg>
-            <span class="ms-3">Kriteria Disiplin</span>
-        </a>
-    </li>
-    <li>
-        <a href="{{ route('discipline.scores.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('discipline.scores.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon ketelitian -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('discipline.scores.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
-            </svg>
-            <span class="ms-3">Input Nilai Disiplin</span>
-        </a>
-    </li>
-    <li>
-        <a href="{{ route('skp.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('skp.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon skp -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('skp.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
-            </svg> 
-            <span class="ms-3">Input SKP</span>
-        </a>
-    </li>
-    @endrole
-    <!-- MENU KHUSUS BAGIAN UMUM (DAN ADMIN) -->
-    <!-- @role('Admin|Bagian Umum')
-    <li><a href="{{ route('discipline.criteria.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('discipline.criteria.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Kriteria Disiplin</span></a></li>
-    <li><a href="{{ route('discipline.scores.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('discipline.scores.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Input Nilai Disiplin</span></a></li>
-    <li><a href="{{ route('skp.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('skp.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Input SKP</span></a></li>
-    @endrole -->
-
+    <!-- MENU KEPALA BPS -->
     @role('Kepala BPS')
     <li>
-        <a href="{{ route('leader.evaluation.index') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('leader.evaluation.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon evaluasi -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('leader.evaluation.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
+        <a href="{{ route('leader.evaluation.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('kepala-bps.evaluation.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('kepala-bps.evaluation.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span class="ms-3">Evaluasi Kepala BPS</span>
         </a>
     </li>
     @endrole
-    <!-- MENU KHUSUS Kepala BPS -->
-    <!-- @role('Kepala BPS')
-    <li><a href="{{ route('leader.evaluation.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('leader.evaluation.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Evaluasi Kepala BPS</span></a></li>
-    @endrole -->
 
-    <!-- MENU REKAP (ADMIN & Kepala BPS) -->
-
+    <!-- MENU REKAP & HASIL (BANYAK ROLE) -->
     @role('Admin|Kepala BPS')
     <li>
-        <a href="{{ route('recap.select_period') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 
-                  {{ request()->routeIs('recap.*') 
-                     ? 'bg-brand-blue text-white shadow-sm' 
-                     : 'text-gray-900 hover:bg-gray-100' }}">
-            <!-- tambahkan icon rekap -->
-            <svg class="w-5 h-5 transition duration-75 
-                        {{ request()->routeIs('recap.*') 
-                           ? 'text-white' 
-                           : 'text-gray-500 group-hover:text-gray-900' }}"
-                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.612 15.443-3.612-1.9-3.612 1.9 1-4.034-3.112-2.7 4.195-.364L10 5l1.517 3.345 4.195.364-3.112 2.7 1 4.034Z"/>
+        <a href="{{ route('recap.select_period') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('recap.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('recap.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
             </svg>
             <span class="ms-3">Rekapitulasi</span>
         </a>
     </li>
     @endrole
-    <!-- @role('Admin|Kepala BPS')
-    <li><a href="{{ route('recap.select_period') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('recap.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Rekapitulasi</span></a></li>
-    @endrole -->
 
-    
-    <!-- @role('Pegawai|Kepala BPS')
-    <li><a href="{{ route('voting.index') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('voting.index') || request()->routeIs('voting.show') ? 'bg-gray-100' : '' }}"><span class="ms-3">Penilaian Saya</span></a></li>
-    <li><a href="{{ route('voting.results.list') }}" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group {{ request()->routeIs('voting.results.*') ? 'bg-gray-100' : '' }}"><span class="ms-3">Lihat Hasil</span></a></li>
-    @endrole -->
+    @role('Pegawai|Kepala BPS')
+    <li>
+        <a href="{{ route('voting.results.list') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('voting.results.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('voting.results.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9a9 9 0 009 0zM19.5 12a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" />
+            </svg>
+            <span class="ms-3">Lihat Hasil</span>
+        </a>
+    </li>
+    @endrole
+
+    <!-- MENU KHUSUS ADMIN & BAGIAN UMUM (DIKELOMPOKKAN BERSAMA) -->
+    <!-- MENU KHUSUS ADMIN -->
+    @role('Admin')
+    <li class="pt-4 mt-4 border-t border-gray-700"><span class="px-2 text-xs font-semibold text-gray-500 uppercase">Administrasi Sistem</span></li>
+    <li>
+        <a href="{{ route('admin.users.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.users.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('admin.users.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493m15-19.128v-.003c0-1.113-.285-2.16-.786-3.071m-15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.67c.12-.241.253-.477.398-.702a4.125 4.125 0 00-7.533-2.493c-2.331 0-4.512.645-6.374 1.766l-.001.109a6.375 6.375 0 0111.964 4.67c.12.241.253-.477.398-.702a4.125 4.125 0 00-7.533-2.493" />
+            </svg>
+            <span class="ms-3">Manajemen User</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.periods.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.periods.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('admin.periods.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+            <span class="ms-3">Manajemen Periode</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.questions.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.questions.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('admin.questions.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+            </svg>
+            <span class="ms-3">Pertanyaan Pegawai</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('admin.leader-criteria.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.leader-criteria.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('admin.leader-criteria.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+            </svg>
+            <span class="ms-3">Kriteria Evaluasi</span>
+        </a>
+    </li>
+    @endrole
+
+    <!-- MENU INPUT DATA (ADMIN & BAGIAN UMUM) -->
+    @role('Admin|Bagian Umum')
+    @if(Auth::user()->hasRole('Bagian Umum') && !Auth::user()->hasRole('Admin'))
+    <li class="pt-4 mt-4 border-t border-gray-700"><span class="px-2 text-xs font-semibold text-gray-500 uppercase">Input Data</span></li>
+    @endif
+    <li>
+        <a href="{{ route('discipline.criteria.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('discipline.criteria.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('discipline.criteria.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008h-.008v-.008z" />
+            </svg>
+            <span class="ms-3">Kriteria Disiplin</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('discipline.scores.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('discipline.scores.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('discipline.scores.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+            </svg>
+            <span class="ms-3">Input Nilai Disiplin</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('skp.index') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('skp.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('skp.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+            </svg>
+            <span class="ms-3">Input SKP</span>
+        </a>
+    </li>
+    @endrole
 </ul>
 
-<!-- Bagian Tambahan di Bawah Menu Utama -->
-<div class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200">
+<!-- Bagian Profil & Logout -->
+<div class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-700">
     <li>
-        <a href="{{ route('profile.edit') }}" 
-           class="flex items-center p-2 rounded-lg transition-colors duration-200 {{ request()->routeIs('profile.edit') ? 'bg-brand-blue text-white shadow-sm' : 'text-gray-900 hover:bg-gray-100' }}">
-            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('profile.edit') ? 'text-white' : 'text-gray-500' }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <a href="{{ route('profile.edit') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('profile.edit') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('profile.edit') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
             <span class="ms-3">Profil Saya</span>
         </a>
     </li>
-    <!-- Link Logout bisa ditambahkan di sini juga jika mau -->
 </div>

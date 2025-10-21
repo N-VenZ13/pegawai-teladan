@@ -18,6 +18,7 @@ module.exports = {
                 "brand-amber": "#F59E0B", // Kuning/Oren aksen
                 "brand-teal": "#14B8A6", // Hijau sukses
                 "brand-rose": "#E11D48", // Merah bahaya
+                "brand-dark": "#1B3446",
             },
         },
     },

@@ -1,5 +1,3 @@
-<!-- resources/views/admin/users/index.blade.php -->
-
 <x-main-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -12,71 +10,69 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                    <div class="mb-4 text-right">
-                        <a href="{{ route('admin.users.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-medium text-gray-800">Daftar Pengguna Sistem</h3>
+                        <a href="{{ route('admin.users.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-blue border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
                             + Tambah User
                         </a>
                     </div>
 
-                    <!-- Notifikasi Sukses -->
                     @if (session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                        <strong class="font-bold">Sukses!</strong>
-                        <span class="block sm:inline">{{ session('success') }}</span>
-                    </div>
+                        <div class="bg-teal-100 border-l-4 border-brand-teal text-teal-800 p-4 rounded-md mb-4" role="alert">
+                            <p class="font-bold">Sukses</p>
+                            <p>{{ session('success') }}</p>
+                        </div>
                     @endif
 
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-200">
+                    <div class="overflow-x-auto border rounded-lg">
+                        <table class="w-full">
+                            <thead class="bg-brand-blue text-white">
                                 <tr>
-                                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Nama</th>
-                                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Username</th>
-                                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">NIP</th>
-                                    <th class="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Role</th>
-                                    <th class="py-3 px-4 uppercase font-semibold text-sm">Aksi</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nama</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">Username</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider">NIP</th>
+                                    <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider">Role</th>
+                                    <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-gray-700">
+                            <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($users as $user)
-                                <tr>
-                                    <td class="py-3 px-4">{{ $user->name }}</td>
-                                    <td class="py-3 px-4">{{ $user->username }}</td>
-                                    <td class="py-3 px-4">{{ $user->nip ?? '-' }}</td>
-                                    <td class="py-3 px-4">
+                                <tr class="hover:bg-blue-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->username }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $user->nip ?? '-' }}</td>
+                                    <td class="px-6 py-4 text-center">
                                         @if (!empty($user->getRoleNames()))
-                                        @foreach ($user->getRoleNames() as $role)
-                                        <span class="bg-indigo-200 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">{{ $role }}</span>
-                                        @endforeach
+                                            @foreach ($user->getRoleNames() as $role)
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">{{ $role }}</span>
+                                            @endforeach
                                         @endif
                                     </td>
-                                    <!-- <td class="py-3 px-4">
-                                        <a href="{{-- route('admin.users.edit', $user->id) --}}" class="text-yellow-500 hover:text-yellow-700">Edit</a>
-                                        <a href="#" class="text-red-500 hover:text-red-700 ml-4">Hapus</a>
-                                    </td> -->
-                                    <td class="py-3 px-4 flex items-center">
-                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="text-yellow-500 hover:text-yellow-700">Edit</a>
-
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');" class="inline-block ml-4">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:text-red-700">Hapus</button>
-                                        </form>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                                        <div class="flex item-center justify-center">
+                                            <a href="{{ route('admin.users.edit', $user->id) }}" class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110" title="Edit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                                            </a>
+                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="w-4 mr-2 transform hover:text-brand-rose hover:scale-110 cursor-pointer" title="Hapus">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 @empty
-                                <tr>
-                                    <td colspan="5" class="text-center py-4">Tidak ada data user.</td>
-                                </tr>
+                                <tr><td colspan="5" class="text-center py-4 text-gray-500">Tidak ada data user.</td></tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
 
                     <div class="mt-4">
-                        {{ $users->links() }} <!-- Ini untuk menampilkan navigasi halaman -->
+                        {{ $users->links() }}
                     </div>
-
                 </div>
             </div>
         </div>

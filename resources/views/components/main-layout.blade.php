@@ -9,15 +9,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-50">
+<body class="font-sans antialiased bg-gray-100">
 
     <div>
         <!-- Sidebar -->
         <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-            <div class="h-full px-3 py-4 overflow-y-auto bg-white shadow-lg">
+            <div class="h-full px-3 py-4 overflow-y-auto bg-brand-dark shadow-lg">
                 <a href="{{ route('dashboard') }}" class="flex items-center ps-2.5 mb-5">
-                    <img src="{{ asset('images/logo.png') }}" class="h-8 me-3" alt="Logo Perusahaan" />
-                    <span class="self-center text-xl font-semibold whitespace-nowrap">SIPATEN</span>
+                    <img src="{{ asset('images/login-illustration3.png') }}" class="h-11 me-3 " alt="Logo Perusahaan" />
+                    <!-- <span class="self-center text-xl font-semibold whitespace-nowrap text-white">SIPATEN</span> -->
                 </a>
                 @include('layouts.partials.sidebar-nav')
             </div>
@@ -43,25 +43,42 @@
                         </h2>
                     </div>
 
-                    <!-- User Dropdown -->
-                    <div class="hidden sm:flex sm:items-center sm:ms-6">
-                        <x-dropdown align="right" width="48">
-                            <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                    <div>{{ Auth::user()->name }}</div>
-                                    <div class="ms-1"><svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg></div>
-                                </button>
-                            </x-slot>
-                            <x-slot name="content">
-                                <x-dropdown-link :href="route('profile.edit')">{{ __('Profile') }}</x-dropdown-link>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">{{ __('Log Out') }}</x-dropdown-link>
-                                </form>
-                            </x-slot>
-                        </x-dropdown>
+                    <div class="flex items-center gap-x-4">
+                        <!-- ================================ -->
+                        <!--    TOMBOL BANTUAN BARU           -->
+                        <!-- ================================ -->
+                        <a href="{{ asset('buku-pedoman-sipaten.pdf') }}" target="_blank"
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                            title="Buka Buku Pedoman">
+                            Panduan
+                            <span class="sr-only">Buka Buku Pedoman</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                            </svg>
+                        </a>
+                        
+                        <!-- ================================ -->
+
+                        <!-- User Dropdown -->
+                        <div class="hidden sm:flex sm:items-center sm:ms-6 text-gray-800">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                        <div>{{ Auth::user()->name }}</div>
+                                        <div class="ms-1"><svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg></div>
+                                    </button>
+                                </x-slot>
+                                <x-slot name="content">
+                                    <x-dropdown-link :href="route('profile.edit')">{{ __('Profile') }}</x-dropdown-link>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">{{ __('Log Out') }}</x-dropdown-link>
+                                    </form>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
                     </div>
                 </div>
             </header>

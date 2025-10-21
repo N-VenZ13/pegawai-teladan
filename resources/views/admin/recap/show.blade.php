@@ -31,10 +31,10 @@
                                 Detail Peer-to-Peer (Ketua Tim)
                             </a> -->
                             <!-- Laporan Hasil Akhir -->
-                            <a href="{{ route('recap.export.pegawai_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
+                            <a href="{{ route('recap.export.pegawai_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-brand-blue border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
                                 Rekap Akhir Anggota Tim Teladan
                             </a>
-                            <a href="{{ route('recap.export.ketua_tim_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
+                            <a href="{{ route('recap.export.ketua_tim_teladan', $period->id) }}" class="inline-flex items-center px-3 py-2 bg-brand-blue border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
                                 Rekap Akhir Ketua Tim Teladan
                             </a>
                         </div>
@@ -60,7 +60,7 @@
                                 <thead class="bg-gray-200">
                                     <tr>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Peringkat</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Anggota Tim</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Rekan (30%)</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Kepala BPS (30%)</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai SKP (10%)</th>
@@ -94,7 +94,7 @@
                                 <thead class="bg-gray-200">
                                     <tr>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Peringkat</th>
-                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Ketua Tim</th>
+                                        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Nama Pegawai</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Rekan (30%)</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai Kepala BPS (30%)</th>
                                         <th class="py-3 px-4 uppercase font-semibold text-sm text-center">Nilai SKP (10%)</th>
@@ -198,7 +198,7 @@
                                     </div>
                                 </div>
                                 <div class="flex justify-end mt-4">
-                                    <button type="submit" class="inline-flex items-center px-4 py-2 bg-brand-blue rounded-md text-sm font-semibold">Unggah File</button>
+                                    <button type="submit" class="inline-flex items-center px-3 py-2 bg-brand-blue border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">Unggah File</button>
                                 </div>
                             </form>
                         </div>
