@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\Period;
 use App\Models\User;
+use App\Models\Winner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +21,11 @@ class AssignmentController extends Controller
 
     public function generate(Period $period)
     {
+
+        // untuk karantina pegawai
+        $currentYear = $period->created_at->year;
+        $quarantinedUserIds = Winner::where('year', $currentYear)->pluck('user_id');
+
         $users = User::role(['Pegawai', 'Kepala BPS'])->get();
         $period->assignments()->delete();
         $assignments = [];
@@ -39,6 +45,10 @@ class AssignmentController extends Controller
 
                 // Aturan Lama: Pimpinan tidak menilai sesama Pimpinan di form ini
                 if ($voter->hasRole('Pimpinan') && $target->hasRole('Kepala BPS')) {
+                    continue;
+                }
+
+                if ($quarantinedUserIds->contains($target->id)) {
                     continue;
                 }
 

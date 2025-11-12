@@ -8,6 +8,8 @@ use App\Models\Answer;
 use App\Models\Assignment;
 use App\Models\Period;
 use App\Models\Question;
+use App\Models\User;
+use App\Models\Winner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +24,16 @@ class VotingController extends Controller
         if (!$activePeriod) {
             return view('employee.voting.no_period');
         }
+
+        // --- MULAI BLOK LOGIKA BARU ---
+        $currentYear = $activePeriod->created_at->year;
+
+        // 2. Ambil ID semua pemenang di tahun ini dari tabel 'winners'
+        $quarantinedUserIds = Winner::where('year', $currentYear)->pluck('user_id');
+
+        // 3. Ambil data lengkap user yang dikarantina
+        $quarantinedUsers = User::whereIn('id', $quarantinedUserIds)->with('roles')->get();
+        // --- SELESAI BLOK LOGIKA BARU ---
 
         /** @var \App\Models\User $user */ // <-- TAMBAHKAN PETUNJUK INI
         $user = Auth::user();
@@ -42,7 +54,8 @@ class VotingController extends Controller
             'activePeriod',
             'pendingPegawai',
             'pendingKetuaTim',
-            'completedAssignments'
+            'completedAssignments',
+            'quarantinedUsers' // variabel baru untuk user yang dikarantina
         ));
     }
 

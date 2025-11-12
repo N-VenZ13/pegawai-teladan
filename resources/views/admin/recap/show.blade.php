@@ -127,7 +127,7 @@
                     <div class="mt-8 border-t pt-6">
                         <div class="flex justify-end mb-6">
                             @if($period->status == 'finished')
-                            @role('Kepala BPS')
+                            @role('Admin|Kepala BPS')
                             <form action="{{ route('recap.publish', $period->id) }}" method="POST" onsubmit="return confirm('Anda yakin ingin mempublikasikan hasil ini? Aksi ini tidak dapat dibatalkan.');">
                                 @csrf
                                 <button type="submit" class="inline-flex items-center px-4 py-2 bg-purple-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-purple-700">Publikasikan Hasil</button>

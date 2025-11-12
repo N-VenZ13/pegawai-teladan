@@ -14,17 +14,17 @@
                     <h3 class="text-lg font-medium text-blue-800 mb-4">Perlu Dinilai: Anggota Tim ({{ $pendingPegawai->count() }})</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         @forelse($pendingPegawai as $assignment)
-                            <a href="{{ route('voting.show', $assignment->id) }}" 
-                               class="group block p-4 bg-white rounded-lg border border-gray-200 shadow-sm 
+                        <a href="{{ route('voting.show', $assignment->id) }}"
+                            class="group block p-4 bg-white rounded-lg border border-gray-200 shadow-sm 
                                       hover:bg-white hover:border-brand-blue hover:shadow-md 
                                       transition-all duration-200">
-                                <p class="font-semibold text-gray-800 group-hover:text-brand-blue">{{ $assignment->target->name }}</p>
-                                <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
-                            </a>
+                            <p class="font-semibold text-gray-800 group-hover:text-brand-blue">{{ $assignment->target->name }}</p>
+                            <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
+                        </a>
                         @empty
-                            <div class="col-span-full bg-white/50 p-4 rounded-lg text-center text-gray-500">
-                                Tidak ada rekan pegawai yang perlu dinilai.
-                            </div>
+                        <div class="col-span-full bg-white/50 p-4 rounded-lg text-center text-gray-500">
+                            Tidak ada rekan pegawai yang perlu dinilai.
+                        </div>
                         @endforelse
                     </div>
                 </div>
@@ -36,17 +36,17 @@
                     <h3 class="text-lg font-medium text-blue-800 mb-4">Perlu Dinilai: Ketua Tim ({{ $pendingKetuaTim->count() }})</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         @forelse($pendingKetuaTim as $assignment)
-                            <a href="{{ route('voting.show', $assignment->id) }}" 
-                               class="group block p-4 bg-white rounded-lg border border-gray-200 shadow-sm 
+                        <a href="{{ route('voting.show', $assignment->id) }}"
+                            class="group block p-4 bg-white rounded-lg border border-gray-200 shadow-sm 
                                       hover:bg-white hover:border-brand-blue hover:shadow-md 
                                       transition-all duration-200">
-                                <p class="font-semibold text-gray-800 group-hover:text-brand-blue">{{ $assignment->target->name }}</p>
-                                <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
-                            </a>
+                            <p class="font-semibold text-gray-800 group-hover:text-brand-blue">{{ $assignment->target->name }}</p>
+                            <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
+                        </a>
                         @empty
-                             <div class="col-span-full bg-white/50 p-4 rounded-lg text-center text-gray-500">
-                                Tidak ada ketua tim yang perlu dinilai.
-                            </div>
+                        <div class="col-span-full bg-white/50 p-4 rounded-lg text-center text-gray-500">
+                            Tidak ada ketua tim yang perlu dinilai.
+                        </div>
                         @endforelse
                     </div>
                 </div>
@@ -58,19 +58,40 @@
                     <h3 class="text-lg font-medium text-teal-800 mb-4">Selesai Dinilai ({{ $completedAssignments->count() }})</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         @forelse($completedAssignments as $assignment)
-                            <!-- Kartu di dalam blok hijau dibuat sedikit transparan -->
-                            <div class="block p-4 bg-white/70 border border-teal-200 rounded-lg opacity-80">
-                                <p class="font-semibold text-gray-700">{{ $assignment->target->name }}</p>
-                                <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
-                            </div>
+                        <!-- Kartu di dalam blok hijau dibuat sedikit transparan -->
+                        <div class="block p-4 bg-white/70 border border-teal-200 rounded-lg opacity-80">
+                            <p class="font-semibold text-gray-700">{{ $assignment->target->name }}</p>
+                            <p class="text-sm text-gray-500">{{ $assignment->target->jabatan }}</p>
+                        </div>
                         @empty
-                            <div class="col-span-full bg-white/50 p-4 rounded-lg text-center text-gray-500">
-                                Anda belum menyelesaikan satupun tugas penilaian.
-                            </div>
+                        <div class="col-span-full bg-white/50 p-4 rounded-lg text-center text-gray-500">
+                            Anda belum menyelesaikan satupun tugas penilaian.
+                        </div>
                         @endforelse
                     </div>
                 </div>
             </div>
+
+            <!-- BLOK KARANTINA PEMENANG TAHUN SEBELUMNYA (Latar Kuning Pucat) -->
+            @if($quarantinedUsers->isNotEmpty())
+            <div class="bg-amber-50 border border-amber-200 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <h3 class="text-lg font-medium text-amber-800 mb-2">Pegawai Teladan Periode Sebelumnya</h3>
+                    <p class="text-sm text-amber-700 mb-4">
+                        Pegawai berikut tidak dapat dinilai pada komponen Penilaian Rekan Kerja (360°) untuk sisa periode di tahun ini karena telah menjadi pegawai teladan pada periode sebelumnya.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        @foreach($quarantinedUsers as $user)
+                        <div class="block p-4 bg-amber-100 border border-amber-200 rounded-lg">
+                            <p class="font-semibold text-gray-700">{{ $user->name }}</p>
+                            <p class="text-sm text-gray-500">{{ $user->roles->first()->name ?? 'Pegawai' }}</p>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+
         </div>
     </div>
 </x-main-layout>

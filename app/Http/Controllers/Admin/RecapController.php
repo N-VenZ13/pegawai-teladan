@@ -11,6 +11,7 @@ use App\Models\DisciplineScore;
 use App\Models\LeaderAnswer;
 use App\Models\Period;
 use App\Models\User;
+use App\Models\Winner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -158,19 +159,42 @@ class RecapController extends Controller
 
     public function publish(Period $period)
     {
-        // Hanya Pimpinan yang bisa publish
-        /** @var \App\Models\User $user */ // <-- Beri petunjuk pada editor
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Hanya Pimpinan yang bisa publish
+        // Pengecekan role yang sudah ada dipertahankan
         if (!$user || !$user->hasRole(['Admin', 'Kepala BPS'])) {
             abort(403, 'Hanya Pimpinan yang dapat mempublikasikan hasil.');
         }
 
-        $period->update(['status' => 'published']);
+        $year = $period->created_at->year;
+
+        // Gunakan transaksi untuk memastikan integritas data
+        DB::transaction(function () use ($period, $year) {
+            // 1. Ambil & Catat Peringkat 1 Pegawai Teladan
+            $pegawaiWinnerData = $this->calculateRecap($period, 'pegawai')->first();
+            if ($pegawaiWinnerData) {
+                Winner::updateOrCreate(
+                    ['period_id' => $period->id, 'category' => 'pegawai'],
+                    ['user_id' => $pegawaiWinnerData['user']->id, 'year' => $year]
+                );
+            }
+
+            // 2. Ambil & Catat Peringkat 1 Ketua Tim Teladan
+            $ketuaTimWinnerData = $this->calculateRecap($period, 'ketua_tim')->first();
+            if ($ketuaTimWinnerData) {
+                Winner::updateOrCreate(
+                    ['period_id' => $period->id, 'category' => 'ketua_tim'],
+                    ['user_id' => $ketuaTimWinnerData['user']->id, 'year' => $year]
+                );
+            }
+
+            // 3. Update status periode menjadi 'published'
+            $period->update(['status' => 'published']);
+        });
 
         return redirect()->route('recap.show', $period->id)
-            ->with('success', 'Hasil penilaian berhasil dipublikasikan!');
+            ->with('success', 'Hasil penilaian berhasil dipublikasikan dan data pemenang telah dicatat.');
     }
 
     public function uploadFiles(Request $request, Period $period)

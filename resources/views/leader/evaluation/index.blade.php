@@ -82,7 +82,7 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $user->name }}</td>
                                             @foreach($criteriaForKetuaTim as $criterion)
                                             <td class="px-6 py-4">
-                                                <input type="number" name="scores[{{ $user->id }}][{{ $criterion->id }}]" value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}" class="w-full text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" min="0" max="100">
+                                                <input type="" name="scores[{{ $user->id }}][{{ $criterion->id }}]" value="{{ $existingScores[$user->id . '-' . $criterion->id] ?? '' }}" class="w-full text-center rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" min="0" max="100">
                                             </td>
                                             @endforeach
                                         </tr>
