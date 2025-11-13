@@ -12,6 +12,7 @@ use App\Models\LeaderAnswer;
 use App\Models\Period;
 use App\Models\User;
 use App\Models\Winner;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -27,76 +28,15 @@ class RecapController extends Controller
         return view('admin.recap.select_period', compact('periods'));
     }
 
-    // Hanya ada SATU method show()
     public function show(Period $period)
     {
-        // Panggil calculateRecap dengan parameter default 'all' untuk tampilan web
         $recapPegawai = $this->calculateRecap($period, 'pegawai');
         $recapKetuaTim = $this->calculateRecap($period, 'ketua_tim');
         return view('admin.recap.show', compact('period', 'recapPegawai', 'recapKetuaTim'));
     }
 
-    // Hanya ada SATU method calculateRecap()
     public function calculateRecap(Period $period, string $targetRole = 'all')
     {
-        if ($targetRole === 'pegawai') {
-            $users = User::role('Pegawai')->where('is_ketua_tim', false)->orderBy('name')->get();
-        } elseif ($targetRole === 'ketua_tim') {
-            $users = User::role(['Pegawai', 'Kepala BPS'])->where('is_ketua_tim', true)->orderBy('name')->get();
-        } else {
-            $users = User::role(['Pegawai', 'Kepala BPS'])->orderBy('name')->get();
-        }
-
-        // $peerScores = DB::table('assignments')
-        //     ->join('answers', 'assignments.id', '=', 'answers.assignment_id')
-        //     ->where('assignments.period_id', $period->id)
-        //     ->groupBy('assignments.target_id')
-        //     ->select('assignments.target_id as user_id', DB::raw('AVG(answers.score) as average_score'))
-        //     ->pluck('average_score', 'user_id');
-
-        // $leaderScores = LeaderAnswer::where('period_id', $period->id)
-        //     ->groupBy('target_id')
-        //     ->select('target_id as user_id', DB::raw('SUM(score) as total_score'))
-        //     ->pluck('total_score', 'user_id');
-
-        // $skpScores = $period->skpScores()->get()->mapWithKeys(function ($item) {
-        //     $avg = ($item->month_1_score + $item->month_2_score + $item->month_3_score) / 3;
-        //     return [$item->user_id => $avg];
-        // });
-
-        // $disciplineScores = DisciplineScore::where('period_id', $period->id)
-        //     ->groupBy('user_id')
-        //     ->select('user_id', DB::raw('SUM(score) as total_score'))
-        //     ->pluck('total_score', 'user_id');
-
-        // $results = [];
-        // foreach ($users as $user) {
-        //     $peerScore = $peerScores->get($user->id, 0);
-        //     $leaderScore = $leaderScores->get($user->id, 0);
-        //     $skpScore = $skpScores->get($user->id, 0);
-        //     $disciplineScore = $disciplineScores->get($user->id, 0);
-
-        //     $finalScore =
-        //         (($peerScore * 10) * 0.10) +
-        //         ($leaderScore * 0.40) +
-        //         ($skpScore * 0.30) +
-        //         ($disciplineScore * 0.20);
-
-        //     $results[] = [
-        //         'user' => $user,
-        //         'peer_score' => round($peerScore, 2),
-        //         'leader_score' => $leaderScore,
-        //         'skp_score' => round($skpScore, 2),
-        //         'discipline_score' => $disciplineScore,
-        //         'final_score' => round($finalScore, 2),
-        //     ];
-        // }
-
-        // $sortedResults = collect($results)->sortByDesc('final_score');
-        // return $sortedResults->values();
-
-        // versi sesuai instansi
-        // 1. Ambil TOTAL Nilai Voting Rekan Kerja
         $peerScores = DB::table('assignments')
             ->join('answers', 'assignments.id', '=', 'answers.assignment_id')
             ->where('assignments.period_id', $period->id)
@@ -104,25 +44,41 @@ class RecapController extends Controller
             ->select('assignments.target_id as user_id', DB::raw('SUM(answers.score) as total_score'))
             ->pluck('total_score', 'user_id');
 
-        // 2. Ambil TOTAL Nilai Kriteria dari Pimpinan (sudah benar)
         $leaderScores = LeaderAnswer::where('period_id', $period->id)
             ->groupBy('target_id')
             ->select('target_id as user_id', DB::raw('SUM(score) as total_score'))
             ->pluck('total_score', 'user_id');
 
-        // 3. Ambil TOTAL Nilai SKP Bulanan
         $skpScores = $period->skpScores()->get()->mapWithKeys(function ($item) {
             $total = $item->month_1_score + $item->month_2_score + $item->month_3_score;
             return [$item->user_id => $total];
         });
 
-        // 4. Ambil TOTAL Nilai Kriteria Disiplin (sudah benar)
         $disciplineScores = DisciplineScore::where('period_id', $period->id)
             ->groupBy('user_id')
             ->select('user_id', DB::raw('SUM(score) as total_score'))
             ->pluck('total_score', 'user_id');
 
-        // 5. Proses Kalkulasi dengan Formula Skor Absolut
+        $userIdsInPeriod = collect($peerScores->keys())
+            ->merge($leaderScores->keys())
+            ->merge($skpScores->keys())
+            ->merge($disciplineScores->keys())
+            ->unique();
+
+        if ($userIdsInPeriod->isEmpty()) {
+            return collect();
+        }
+
+        $usersQuery = User::whereIn('id', $userIdsInPeriod)->withTrashed();
+
+        if ($targetRole === 'pegawai') {
+            $usersQuery->role('Pegawai')->where('is_ketua_tim', false);
+        } elseif ($targetRole === 'ketua_tim') {
+            $usersQuery->role(['Pegawai', 'Kepala BPS'])->where('is_ketua_tim', true);
+        }
+        
+        $users = $usersQuery->orderBy('name')->get();
+
         $results = [];
         foreach ($users as $user) {
             $peerScore = $peerScores->get($user->id, 0);
@@ -130,12 +86,10 @@ class RecapController extends Controller
             $skpScore = $skpScores->get($user->id, 0);
             $disciplineScore = $disciplineScores->get($user->id, 0);
 
-            // --- FORMULA PERHITUNGAN BERDASARKAN SKOR TOTAL (SESUAIKAN BOBOT!) ---
-            // Ini adalah tempat Anda mengubah bobot
-            $bobot_peer = 0.30;       // 30%
-            $bobot_leader = 0.30;     // 30%
-            $bobot_skp = 0.10;        // 10%
-            $bobot_discipline = 0.30; // 20%
+            $bobot_peer = 0.30;
+            $bobot_leader = 0.30;
+            $bobot_skp = 0.10;
+            $bobot_discipline = 0.30;
 
             $finalScore =
                 ($peerScore * $bobot_peer) +
@@ -149,7 +103,7 @@ class RecapController extends Controller
                 'leader_score' => $leaderScore,
                 'skp_score' => $skpScore,
                 'discipline_score' => $disciplineScore,
-                'final_score' => round($finalScore, 2), // Skor akhir akan besar
+                'final_score' => round($finalScore, 2),
             ];
         }
 
@@ -157,21 +111,18 @@ class RecapController extends Controller
         return $sortedResults->values();
     }
 
-    public function publish(Period $period)
+    public function publish(Period $period): RedirectResponse
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Pengecekan role yang sudah ada dipertahankan
         if (!$user || !$user->hasRole(['Admin', 'Kepala BPS'])) {
             abort(403, 'Hanya Pimpinan yang dapat mempublikasikan hasil.');
         }
 
         $year = $period->created_at->year;
 
-        // Gunakan transaksi untuk memastikan integritas data
         DB::transaction(function () use ($period, $year) {
-            // 1. Ambil & Catat Peringkat 1 Pegawai Teladan
             $pegawaiWinnerData = $this->calculateRecap($period, 'pegawai')->first();
             if ($pegawaiWinnerData) {
                 Winner::updateOrCreate(
@@ -180,7 +131,6 @@ class RecapController extends Controller
                 );
             }
 
-            // 2. Ambil & Catat Peringkat 1 Ketua Tim Teladan
             $ketuaTimWinnerData = $this->calculateRecap($period, 'ketua_tim')->first();
             if ($ketuaTimWinnerData) {
                 Winner::updateOrCreate(
@@ -189,12 +139,11 @@ class RecapController extends Controller
                 );
             }
 
-            // 3. Update status periode menjadi 'published'
             $period->update(['status' => 'published']);
         });
 
         return redirect()->route('recap.show', $period->id)
-            ->with('success', 'Hasil penilaian berhasil dipublikasikan dan data pemenang telah dicatat.');
+                        ->with('success', 'Hasil penilaian berhasil dipublikasikan dan data pemenang telah dicatat.');
     }
 
     public function uploadFiles(Request $request, Period $period)
@@ -237,15 +186,11 @@ class RecapController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Cek jika user ada DAN punya salah satu dari role yang diizinkan
         if (!$user || !$user->hasRole(['Admin', 'Kepala BPS'])) {
             abort(403, 'Aksi tidak diizinkan.');
         }
 
-        // Tentukan nama file
         $fileName = 'Laporan_PeerToPeer_Pegawai_' . Str::slug($period->name) . '.xlsx';
-
-        // Panggil Laravel Excel untuk men-download
         return Excel::download(new PeerToPeerExport($period), $fileName);
     }
 
@@ -254,7 +199,6 @@ class RecapController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // Cek jika user ada DAN punya salah satu dari role yang diizinkan
         if (!$user || !$user->hasRole(['Admin', 'Kepala BPS'])) {
             abort(403, 'Aksi tidak diizinkan.');
         }
