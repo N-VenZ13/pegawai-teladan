@@ -24,7 +24,18 @@ class RecapController extends Controller
 {
     public function selectPeriod()
     {
-        $periods = Period::whereIn('status', ['finished', 'published'])->latest()->get();
+        // $periods = Period::whereIn('status', ['finished', 'published'])->latest()->get();
+        // return view('admin.recap.select_period', compact('periods'));
+
+        // baru ada daftarnya
+        $periods = Period::whereIn('status', ['finished', 'published'])
+            ->orderBy('start_date', 'desc') // Urutkan berdasarkan tanggal mulai
+            ->get()
+            ->groupBy(function ($period) {
+                // Kelompokkan berdasarkan tahun dari 'start_date'
+                return $period->start_date->year;
+            });
+
         return view('admin.recap.select_period', compact('periods'));
     }
 
@@ -76,7 +87,7 @@ class RecapController extends Controller
         } elseif ($targetRole === 'ketua_tim') {
             $usersQuery->role(['Pegawai', 'Kepala BPS'])->where('is_ketua_tim', true);
         }
-        
+
         $users = $usersQuery->orderBy('name')->get();
 
         $results = [];
@@ -143,7 +154,7 @@ class RecapController extends Controller
         });
 
         return redirect()->route('recap.show', $period->id)
-                        ->with('success', 'Hasil penilaian berhasil dipublikasikan dan data pemenang telah dicatat.');
+            ->with('success', 'Hasil penilaian berhasil dipublikasikan dan data pemenang telah dicatat.');
     }
 
     public function uploadFiles(Request $request, Period $period)

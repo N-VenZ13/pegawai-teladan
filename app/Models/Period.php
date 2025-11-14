@@ -23,6 +23,11 @@ class Period extends Model
         'month_3_name'
     ];
 
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
+
     // app/Models/Period.php
     public function assignments()
     {

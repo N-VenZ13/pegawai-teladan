@@ -44,6 +44,16 @@
             <span class="ms-3">Rekapitulasi</span>
         </a>
     </li>
+
+    <!-- KODE UNTUK MENU BARU "PENILAIAN TAHUNAN" -->
+    <li>
+        <a href="{{ route('annual-eval.form') }}" class="flex items-center p-2 rounded-lg transition-all duration-200 group {{ request()->routeIs('annual-eval.*') ? 'bg-brand-blue text-white shadow' : 'text-gray-300 hover:bg-white/10 hover:text-white' }}">
+            <svg class="w-5 h-5 transition duration-75 {{ request()->routeIs('annual-eval.*') ? 'text-white' : 'text-gray-400 group-hover:text-white' }}" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="ms-3">Penilaian Tahunan</span>
+        </a>
+    </li>
     @endrole
 
     @role('Pegawai|Kepala BPS')

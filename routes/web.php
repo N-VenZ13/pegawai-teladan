@@ -14,6 +14,7 @@ use App\Http\Controllers\SkpController;
 use App\Http\Controllers\Leader\EvaluationController;
 use App\Http\Controllers\Employee\VotingController;
 use App\Http\Controllers\Admin\RecapController;
+use App\Http\Controllers\Admin\AnnualEvaluationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +86,13 @@ Route::middleware('auth')->group(function () {
     // --- RUTE UNTUK MONITORING (ADMIN & KEPALA BPS) ---
     Route::prefix('monitoring')->name('monitoring.')->middleware(['role:Admin|Kepala BPS'])->group(function () {
         Route::get('/{period}', [AssignmentController::class, 'monitoring'])->name('show');
+    });
+
+    // --- PENILAIAN TAHUNAN ---
+    Route::prefix('annual-evaluation')->name('annual-eval.')->group(function () {
+        Route::get('/', [AnnualEvaluationController::class, 'create'])->name('form');
+        Route::post('/', [AnnualEvaluationController::class, 'store'])->name('store');
+        Route::get('/recap', [AnnualEvaluationController::class, 'show'])->name('recap');
     });
 });
 
