@@ -29,14 +29,20 @@
 
                             <!-- Tanggal Mulai -->
                             <div>
-                                <label for="start_date" class="block font-medium text-sm text-gray-700">Tanggal Mulai</label>
-                                <input type="date" name="start_date" id="start_date" value="{{ old('start_date', $period->start_date) }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 ..." required>
+                                <x-input-label for="start_date" :value="__('Tanggal Mulai')" />
+                                <x-text-input id="start_date" class="block mt-1 w-full" type="date" name="start_date" :value="old('start_date', $period->start_date->format('Y-m-d'))" required />
+                                <x-input-error :messages="$errors->get('start_date')" class="mt-2" />
+                                <!--<label for="start_date" class="block font-medium text-sm text-gray-700">Tanggal Mulai</label>-->
+                                <!--<input type="date" name="start_date" id="start_date" value="{{ old('start_date', $period->start_date) }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 ..." required>-->
                             </div>
 
                             <!-- Tanggal Selesai -->
                             <div>
-                                <label for="end_date" class="block font-medium text-sm text-gray-700">Tanggal Selesai</label>
-                                <input type="date" name="end_date" id="end_date" value="{{ old('end_date', $period->end_date) }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 ..." required>
+                                <x-input-label for="end_date" :value="__('Tanggal Akhir')" />
+                                <x-text-input id="end_date" class="block mt-1 w-full" type="date" name="end_date" :value="old('end_date', $period->end_date->format('Y-m-d'))" required />
+                                <x-input-error :messages="$errors->get('end_date')" class="mt-2" />
+                                <!--<label for="end_date" class="block font-medium text-sm text-gray-700">Tanggal Selesai</label>-->
+                                <!--<input type="date" name="end_date" id="end_date" value="{{ old('end_date', $period->end_date) }}" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 ..." required>-->
                             </div>
 
                             <div>
