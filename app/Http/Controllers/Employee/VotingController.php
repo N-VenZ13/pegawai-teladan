@@ -138,7 +138,17 @@ class VotingController extends Controller
 
     public function listPublishedPeriods()
     {
-        $publishedPeriods = Period::where('status', 'published')->latest()->get();
+        // $publishedPeriods = Period::where('status', 'published')->latest()->get();
+        // return view('employee.results.list', compact('publishedPeriods'));
+
+        $publishedPeriods = Period::where('status', 'published')
+            ->orderBy('start_date', 'desc') // Urutkan berdasarkan tanggal mulai
+            ->get()
+            ->groupBy(function ($period) {
+                // Kelompokkan berdasarkan tahun dari 'start_date'
+                return $period->start_date->year;
+            });
+
         return view('employee.results.list', compact('publishedPeriods'));
     }
 
