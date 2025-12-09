@@ -48,6 +48,7 @@ class RecapController extends Controller
 
     public function calculateRecap(Period $period, string $targetRole = 'all')
     {
+        // Mengambil total skor penilaian rekan (C1)
         $peerScores = DB::table('assignments')
             ->join('answers', 'assignments.id', '=', 'answers.assignment_id')
             ->where('assignments.period_id', $period->id)
@@ -55,6 +56,7 @@ class RecapController extends Controller
             ->select('assignments.target_id as user_id', DB::raw('SUM(answers.score) as total_score'))
             ->pluck('total_score', 'user_id');
 
+        // Mengambil total skor evaluasi kepala (C2)
         $leaderScores = LeaderAnswer::where('period_id', $period->id)
             ->groupBy('target_id')
             ->select('target_id as user_id', DB::raw('SUM(score) as total_score'))
@@ -97,17 +99,20 @@ class RecapController extends Controller
             $skpScore = $skpScores->get($user->id, 0);
             $disciplineScore = $disciplineScores->get($user->id, 0);
 
+            // inisiaslisasi bobot
             $bobot_peer = 0.30;
             $bobot_leader = 0.30;
             $bobot_skp = 0.10;
             $bobot_discipline = 0.30;
 
+            // proses perhitungan final score
             $finalScore =
                 ($peerScore * $bobot_peer) +
                 ($leaderScore * $bobot_leader) +
                 ($skpScore * $bobot_skp) +
                 ($disciplineScore * $bobot_discipline);
 
+            // memasukkan data ke array hasil
             $results[] = [
                 'user' => $user,
                 'peer_score' => $peerScore,
