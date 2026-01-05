@@ -1,9 +1,9 @@
-# SIPEKA - Sistem Penilaian Kinerja Pegawai
+# SIPATEN - Sistem Penilaian Kinerja Pegawai
 
 
 ## 📌 Tentang Proyek
 
-**SIPEKA** (Sistem Penilaian Kinerja Pegawai) adalah aplikasi web yang dirancang untuk mengelola dan mengotomatiskan proses penilaian pegawai teladan dan ketua tim teladan di lingkungan perusahaan. Aplikasi ini dibangun untuk menggantikan metode manual (seperti Google Forms atau Excel), menyediakan alur kerja yang terstruktur, aman, dan transparan.
+**SIPATEN** (Sistem Penilaian Kinerja Pegawai) adalah aplikasi web yang dirancang untuk mengelola dan mengotomatiskan proses penilaian pegawai teladan dan ketua tim teladan di lingkungan perusahaan. Aplikasi ini dibangun untuk menggantikan metode manual (seperti Google Forms atau Excel), menyediakan alur kerja yang terstruktur, aman, dan transparan.
 
 Proyek ini dibangun menggunakan **Laravel 12** dan **Tailwind CSS**, dengan fokus pada arsitektur multi-peran dan proses bisnis yang dapat disesuaikan.
 
