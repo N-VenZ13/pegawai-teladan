@@ -158,7 +158,7 @@ Jika Anda ingin menjalankan atau mengembangkan aplikasi ini di mesin lokal Anda:
 Setelah menjalankan `migrate:fresh --seed`, Anda bisa login menggunakan akun berikut:
 
 -   **Role:** Admin
--   **Email:** `admin@perusahaan.com`
+-   **Username:** `admin`
 -   **Password:** `password123`
 
 ---
