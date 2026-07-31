@@ -2,7 +2,7 @@
 
 <p align="center">
   <!-- Ganti 'dashboard-utama.png' dengan nama screenshot dashboard terbaik Anda -->
-  <img src="foto-foto/dashboard-utama.png" alt="Dashboard SIPATEN" width="900" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+  <img src="foto-foto/dashboard-utama1.png" alt="Dashboard SIPATEN" width="900" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
 </p>
 
 <p align="center">
