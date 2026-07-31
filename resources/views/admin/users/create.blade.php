@@ -51,6 +51,13 @@
                                 <input type="text" name="jabatan" id="jabatan" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                             </div>
 
+                            <!-- departemen -->
+                            <div>
+                                <label for="departemen" class="block font-medium text-sm text-gray-700">Departemen</label>
+                                <input type="text" name="departemen" id="departemen" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            
+
                             <!-- Password -->
                             <div>
                                 <label for="password" class="block font-medium text-sm text-gray-700">Password</label>

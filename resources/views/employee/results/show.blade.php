@@ -7,20 +7,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-12">
 
-            <!-- ======================================= -->
-            <!--    BAGIAN PODIUM PEGAWAI TELADAN        -->
-            <!-- ======================================= -->
+            <!-- BAGIAN PODIUM PEGAWAI TELADAN -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 md:p-8 text-gray-900">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">🏆 Peringkat Anggota Tim Teladan 🏆</h3>
-
+                    <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">🏆 Peringkat Pegawai Teladan 🏆</h3>
                     @if($recapPegawai->count() >= 3)
                     @php
                     $juara1 = $recapPegawai->get(0);
                     $juara2 = $recapPegawai->get(1);
                     $juara3 = $recapPegawai->get(2);
                     @endphp
-
                     <div class="flex items-end justify-center gap-4 md:gap-8 text-center">
                         <!-- Juara 2 -->
                         <div class="w-1/3">
@@ -58,23 +54,16 @@
                 </div>
             </div>
 
-            <!-- ======================================= -->
-            <!--    BAGIAN PODIUM KETUA TIM TELADAN      -->
-            <!-- ======================================= -->
+            <!-- BAGIAN PODIUM KETUA TIM TELADAN -->
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 md:p-8 text-gray-900">
                     <h3 class="text-2xl font-bold text-gray-800 mb-8 text-center">🏆 Peringkat Ketua Tim Teladan 🏆</h3>
-
-                    <!-- UBAH KONDISI MENJADI >= 3 -->
                     @if($recapKetuaTim->count() >= 3)
                     @php
-                    // GANTI NAMA VARIABEL AGAR TIDAK BENTROK
                     $juaraKt1 = $recapKetuaTim->get(0);
                     $juaraKt2 = $recapKetuaTim->get(1);
                     $juaraKt3 = $recapKetuaTim->get(2);
                     @endphp
-
-                    <!-- SALIN STRUKTUR PODIUM DARI ATAS -->
                     <div class="flex items-end justify-center gap-4 md:gap-8 text-center">
                         <!-- Juara 2 -->
                         <div class="w-1/3">
@@ -112,40 +101,58 @@
                 </div>
             </div>
 
-            <!-- Blok Download Dokumen -->
+            <!-- ============================================= -->
+            <!--   BLOK DOWNLOAD DOKUMEN DENGAN LOGIKA BARU    -->
+            <!-- ============================================= -->
+            @php
+            // Cek apakah user yang login ada di 3 besar Pegawai ATAU 3 besar Ketua Tim
+            $isPegawaiWinner = $recapPegawai->take(1)->contains('user.id', Auth::id());
+            $isKtWinner = $recapKetuaTim->take(1)->contains('user.id', Auth::id());
+            @endphp
+
+            @if($isPegawaiWinner || $isKtWinner)
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">Dokumen Resmi</h3>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">🏆 Selamat! Anda Terpilih! 🏆</h3>
+                    <p class="text-center text-gray-500 mb-6">Silakan unduh dokumen penghargaan Anda di bawah ini.</p>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Dokumen Pegawai Teladan -->
+                        @if($isPegawaiWinner)
                         <div class="text-center p-4 border rounded-lg">
-                            <h4 class="font-semibold mb-3">Anggota Tim Teladan</h4>
+                            <h4 class="font-semibold mb-3">Penghargaan Pegawai Teladan</h4>
                             @if($period->sk_pegawai_path)
-                            <a href="{{ Storage::url($period->sk_pegawai_path) }}" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 mb-2 rounded-lg bg-gray-800 text-white text-sm font-medium hover:bg-gray-700 transition duration-200">SK Pegawai</a>
+                            <a href="{{ Storage::url($period->sk_pegawai_path) }}" target="_blank" class="inline-flex ... mb-2">SK Pegawai</a>
                             @endif
                             @if($period->sertifikat_pegawai_path)
-                            <a href="{{ Storage::url($period->sertifikat_pegawai_path) }}" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 transition duration-200">Sertifikat Pegawai</a>
+                            <a href="{{ Storage::url($period->sertifikat_pegawai_path) }}" target="_blank" class="inline-flex ...">Sertifikat Pegawai</a>
                             @endif
                             @if(!$period->sk_pegawai_path && !$period->sertifikat_pegawai_path)
                             <p class="text-sm text-gray-500">Dokumen belum tersedia.</p>
                             @endif
                         </div>
+                        @endif
+
                         <!-- Dokumen Ketua Tim Teladan -->
+                        @if($isKtWinner)
                         <div class="text-center p-4 border rounded-lg">
-                            <h4 class="font-semibold mb-3">Ketua Tim Teladan</h4>
+                            <h4 class="font-semibold mb-3">Penghargaan Ketua Tim Teladan</h4>
                             @if($period->sk_ketua_tim_path)
-                            <a href="{{ Storage::url($period->sk_ketua_tim_path) }}" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 mb-2 rounded-lg bg-gray-800 text-white text-sm font-medium hover:bg-gray-700 transition duration-200">SK Ketua Tim</a>
+                            <a href="{{ Storage::url($period->sk_ketua_tim_path) }}" target="_blank" class="inline-flex ... mb-2">SK Ketua Tim</a>
                             @endif
                             @if($period->sertifikat_ketua_tim_path)
-                            <a href="{{ Storage::url($period->sertifikat_ketua_tim_path) }}" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-500 transition duration-200">Sertifikat Ketua Tim</a>
+                            <a href="{{ Storage::url($period->sertifikat_ketua_tim_path) }}" target="_blank" class="inline-flex ...">Sertifikat Ketua Tim</a>
                             @endif
                             @if(!$period->sk_ketua_tim_path && !$period->sertifikat_ketua_tim_path)
                             <p class="text-sm text-gray-500">Dokumen belum tersedia.</p>
                             @endif
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
+            @endif
+            <!-- ============================================= -->
 
         </div>
     </div>

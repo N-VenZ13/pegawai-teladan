@@ -42,7 +42,8 @@ class VotingController extends Controller
         $allAssignments = $user->assignmentsAsVoter()
             ->where('period_id', $activePeriod->id)
             ->with('target')
-            ->get();
+            ->get()
+            ->filter(fn($assignment) => $assignment->target !== null); 
 
         $completedAssignments = $allAssignments->where('status', 'completed');
         $pendingAssignments = $allAssignments->where('status', 'pending');
